@@ -1,3 +1,6 @@
+import ItemAddition from './components/ItemAddition';
+import ItemListing from './components/ItemListing';
+import ItemDeletion from './components/ItemDeletion';
 import './App.css';
 
 function App() {
@@ -9,9 +12,9 @@ function App() {
       </header>
 
       <main className="App-main">
-        <div>Add item</div>
-        <div>Shopping list</div>
-        <div>Delete item</div>
+        <ItemAddition />
+        <ItemListing />
+        <ItemDeletion />
       </main>
       
       <div className="App-footer">
