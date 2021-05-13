@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 const apiPort = 3333;
 const app = express();
-app.use(express.json());
+app.use(express.json()); // for parsing application/json
 
 
 // Connect to a MongoDB collection
@@ -30,18 +30,18 @@ const itemSchema = new mongoose.Schema({
 });
 const Item = mongoose.model("Item", itemSchema);
 
-// ### temporary: hard-coded insert of two shopping items
-const si1 = new Item({ name: "Muesli", status: "Pending" });
-const si2 = new Item({ name: "Yoghurt", status: "Pending" });
+// ### Hard-coded insert of two shopping items
+// const si1 = new Item({ name: "Muesli", status: "Pending" });
+// const si2 = new Item({ name: "Yoghurt", status: "Pending" });
 
-Item.insertMany([si1, si2], function(error) {
-  if (error) {
-    console.error(">> insertMany", error);
-  } else {
-    console.log("Meowelous! We've added a couple of shopping items to your list.");
-    console.warn(">> Don't forget to comment this out!");
-  }
-});
+// Item.insertMany([si1, si2], function(error) {
+//   if (error) {
+//     console.error(">> insertMany", error);
+//   } else {
+//     console.log("Meowelous! We've added a couple of shopping items to your list.");
+//     console.warn(">> Don't forget to comment this out!");
+//   }
+// });
 
 // Create a predefined schema/structure and model/template: Category
 const categorySchema = new mongoose.Schema({
@@ -61,10 +61,21 @@ app.get("/", (request, response) => {
   response.write("<a href='/shoppingItems'>See a list of all shopping items</a>");
   response.send();
 });
-// Get all shopping items > list
+// CRUD: Create/post a new item
+app.post("/shoppingItem", (request, response) => {
+
+  const newItem = new Item({name: request.body.name, status: "Pending"});
+
+  newItem.save( function(error, saveItem) {
+    if (error) return console.error(error);
+    response.send(`Item "${saveItem.name}" was added successfully!`);
+  });
+  
+});
+// CRUD: Read/display all shopping items
 app.get("/shoppingItems", (request, response) => {
  
-  ShoppingItem.find(function(error, items) {
+  Item.find(function(error, items) {
     if (!error) {
       // items.forEach( item => console.log(item.name) );
       response.send(items);
@@ -72,18 +83,50 @@ app.get("/shoppingItems", (request, response) => {
   });
   
 });
-// Post a new item
-app.get("/shoppingItems", (request, response) => {
- 
-  ShoppingItem.find(function(error, items) {
-    if (!error) {
-      // items.forEach( item => console.log(item.name) );
-      response.send(items);
-    } 
-  });
+// CRUD: Update/edit an item
+app.patch("/shoppingItem", (request, response) => {
+
+  if (mongoose.Types.ObjectId.isValid(request.body._id)) {
+
+    Item.updateOne({_id: request.body._id}, {name: request.body.name}, function(error, result) {
+      // console.log(result);
+      if (error) console.error(error);
+      if (result.ok === 1) {
+        response.send(`Items matching the ID:  ${result.n}. Items updated ${result.nModified}. Item name: "${request.body.name}".`);
+      } else {
+        response.send(`Ooops, that didn't work out. Please try again.`);
+      }
+    });
+
+  } else {
+    response.send(`Ooops, that didn't work out. Please try again.`);
+  }
   
+});
+// CRUD: Delete an item
+app.delete("/shoppingItem", (request, response) => {
+
+  if (mongoose.Types.ObjectId.isValid(request.body._id)) {
+    
+    Item.deleteOne({_id: request.body._id}, function(error, result) {
+      console.log(result);
+      if (error) {
+        console.error(error);
+        response.send(`Ooops, that didn't work out. Please try again.`);
+      }  
+      if (result.ok === 1) {
+        response.send(`Items matching the ID: ${result.n}. Items deleted: ${result.deletedCount}.`);
+      } else {
+        response.send(`Ooops, that didn't work out. Please try again.`);
+      }
+    });
+    
+  } else {
+    response.send(`Ooops, that didn't work out. Please try again.`);
+  }
+
 });
 
 
-
+// Start server
 app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`));
