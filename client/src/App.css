@@ -1,0 +1,45 @@
+/* Blue 233e8b Green 1eae98 Turquoise a9f1df Yellow ffffc7 */
+h1 {
+  margin: .5em;
+}
+
+p {
+  margin: 0 0 .5em 0;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #233e8b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  color: #a9f1df;
+}
+
+.App-main {
+  background-color: #1eae98;
+  color: #ffffc7;
+  padding: 1rem;
+}
+
+.App-footer {
+  background-color: #233e8b;
+  color: #1eae98;
+  font-size: .8rem;
+  padding: 1rem;
+}
+
+a:link,
+a:visited,
+a:active {
+  color: #1eae98;
+}
+
+a:hover {
+  color: #ffffc7;
+}
