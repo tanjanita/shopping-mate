@@ -25,6 +25,9 @@ p {
   background-color: #1eae98;
   color: #ffffc7;
   padding: 1rem;
+  width: 320px;
+  text-align: center;
+  margin: 0 auto;
 }
 
 .App-footer {
@@ -42,4 +45,37 @@ a:active {
 
 a:hover {
   color: #ffffc7;
+}
+
+input {
+  display: inline-block;
+}
+
+.itemList {
+  text-align: left;
+}
+
+ul {
+  list-style-type: none;
+}
+
+button {
+  background-color: #233e8b;
+  color: #a9f1df;
+  border: none;
+  padding: 6px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+input {
+  background-color: #ffffc7;
+  color: #233e8b;
+  border: none;
+  padding: 6px;
+  font-size: 1rem;
 }
