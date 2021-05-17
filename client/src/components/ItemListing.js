@@ -1,20 +1,32 @@
+import React, { useState, useEffect } from 'react';
+
+function getShoppingItems() {
+    // fetching data with fetch default action "get". response data is turned into json.
+    return fetch('http://localhost:3333/shoppingItems')
+      .then(data => data.json())
+}
 
 function ItemListing() {
+
+  let [itemList, setItemList] = useState([]);
+
+  function updateItems() {
+    getShoppingItems()
+      .then(items => {setItemList(items)})
+  } 
+
+  useEffect(() => {updateItems()}, []);
+
   return (
     <div className="itemList">
-
       <ul>
-        <li>
-          <input type="checkbox" id="_id1" name="_id1" value="Strawberries" /> <label for="_id1">Strawberries</label>
-        </li>
-        <li>
-          <input type="checkbox" id="_id2" name="_id2" value="Cookies" /> <label for="_id2">Cookies</label>
-        </li>
-        <li>
-          <input type="checkbox" id="_id3" name="_id3" value="Crisps" /> <label for="_id3">Crisps</label>
-        </li>
+        {itemList.map((item, index) => ( 
+          <li key={index}>
+            <input type="checkbox" id={item._id} name={item.name} /> <label htmlFor={item._id}>{item.name}</label>
+          </li>
+        ))
+        }
       </ul>  
-
     </div>
   );
 }
