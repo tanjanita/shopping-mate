@@ -1,8 +1,10 @@
-const express = require('express');
+const express = require("express");
+const cors = require("cors");
 const mongoose = require("mongoose");
 
 const apiPort = 3333;
 const app = express();
+app.use(cors({origin: "http://localhost:3000"})); // enable api access from another origin
 app.use(express.json()); // for parsing application/json
 
 
