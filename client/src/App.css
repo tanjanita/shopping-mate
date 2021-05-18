@@ -1,6 +1,8 @@
 /* Blue 233e8b Green 1eae98 Turquoise a9f1df Yellow ffffc7 */
 h1 {
   margin: .5em;
+  color: #ffffc7;
+  font-size: 2.6rem;
 }
 
 p {
@@ -17,7 +19,7 @@ p {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   color: #a9f1df;
 }
 
@@ -44,7 +46,7 @@ a:active {
 }
 
 a:hover {
-  color: #ffffc7;
+  color: #a9f1df;
 }
 
 input {
