@@ -1,21 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-function getShoppingItems() {
-    // fetching data with fetch default action "get". response data is turned into json.
-    return fetch('http://localhost:3333/shoppingItems')
-      .then(data => data.json())
-}
+function ItemListing(props) {
 
-function ItemListing() {
-
-  let [itemList, setItemList] = useState([]);
-
-  function updateItems() {
-    getShoppingItems()
-      .then(items => {setItemList(items)})
-  } 
-
-  useEffect(() => {updateItems()}, []);
+  const itemList = props.itemList;
 
   return (
     <div className="itemList">

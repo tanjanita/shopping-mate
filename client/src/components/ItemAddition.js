@@ -1,8 +1,14 @@
+import React, { useState } from 'react';
 
-function ItemAddition() {
+function ItemAddition(props) {
+
+  const [itemInput, setItemInput] = useState('');
+
   return (
     <div>
-      <input type="text" /> <button type="button">Add item</button>
+    <form onSubmit={props.onFormSubmit}>
+      <input type="text" onChange={event => setItemInput(event.target.value)} name="name" value={itemInput}/> <button type="submit">Add item</button>
+    </form>
     </div>
   );
 }
