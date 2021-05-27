@@ -1,50 +1,88 @@
-// import React, { useState, useEffect } from 'react';
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import ItemAddition from './ItemAddition';
 import ItemListing from './ItemListing';
 import ItemDeletion from './ItemDeletion';
 
-
 function Items() {
 
   const [itemList, setItemList] = useState([]);
+  // trigger state for useEffect
+  const [listUpdate, triggerListUpdate] = useState(0);
 
-  function updateItems() {
-    // fetching data with fetch default action "get". response data is turned into json.
-    return fetch('http://localhost:3333/shoppingItems')
-      .then(data => data.json())
-      .then(items => {setItemList(items)})
-      // .then(console.log("itemList", itemList))
-      ;
-  } 
+  useEffect(() => {
+    console.log('useEffect', listUpdate);
+    // fetch directly inside
+      fetch('http://localhost:3333/shoppingItems')
+       .then(data => data.json())
+        .then(jsondata => {
+          setItemList(jsondata);
+        });
+  }, [listUpdate]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {updateItems()}, []);
-  // updateItems();
 
   function handleItemAddition(event) {
 
     event.preventDefault();
-    let inputDetails = JSON.stringify({'name': event.target.name.value});
 
-    return fetch('http://localhost:3333/shoppingItem', {
+    fetch('http://localhost:3333/shoppingItem', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: inputDetails
+      body: JSON.stringify({'name': event.target.name.value})
     })
-    .then(data => console.log("Data additon ok?", data.ok))
-    .then(updateItems());
+    .then(triggerListUpdate(listUpdate+1)); // change state, to trigger list update/useEffect
   };
-  
+
+  function handleItemCheck(event) {
+
+    const updateObject = {
+      '_id': event.target.id, 
+      'field': 'status', 
+      'value': (event.target.checked) ? "Done" : "Pending"
+    };
+
+    return fetch('http://localhost:3333/shoppingItem', {
+      method: 'PATCH',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(updateObject)
+    })
+    .then(triggerListUpdate(listUpdate+1)); // change state, to trigger list update/useEffect
+  }
+
+  function handleClickDeleteDone() {
+    
+    const deletionFilter = {
+      'field': 'status', 
+      'value': "Done"
+    };
+
+    return fetch('http://localhost:3333/shoppingItems', {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(deletionFilter)
+    })
+    .then(triggerListUpdate(listUpdate+1)); // change state, to trigger list update/useEffect
+  }
+
+
   return (
     <main className="App-main">
+    <React.StrictMode>
+
       <ItemAddition onFormSubmit={handleItemAddition} />
-      <ItemListing itemList={itemList} />
-      <ItemDeletion />
+      <ItemListing itemList={itemList} onItemCheck={handleItemCheck} />
+      <ItemDeletion onClickDeleteDone={handleClickDeleteDone} />
+
+    </React.StrictMode>
     </main>
   );
 }

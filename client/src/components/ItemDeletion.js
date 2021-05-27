@@ -1,8 +1,9 @@
+import React from 'react';
 
-function ItemDeletion() {
+function ItemDeletion(props) {
   return (
     <div>
-      <button type="button">Delete all items ticked / purchased</button>
+      <button type="button" onClick={props.onClickDeleteDone}>Delete all items ticked / purchased</button>
     </div>
   );
 }

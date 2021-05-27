@@ -9,8 +9,8 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>shoppingMate <img src="logo192.png" alt="groceries icon" width="80" height="80" /></h1>
-        <p>Yey, you're out shopping with your mate.</p>
-        <p>Let's split up that shopping list!</p>
+        <p className="subtitle">Yey, you're out shopping with your mate :)</p>
+        <p>Let's split up that shopping list !</p>
       </header>
 
       <Items />
