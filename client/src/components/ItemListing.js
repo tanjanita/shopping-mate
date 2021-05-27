@@ -7,9 +7,11 @@ function ItemListing(props) {
   return (
     <div className="itemList">
       <ul>
-        {itemList.map((item, index) => ( 
-          <li key={index}>
-            <input type="checkbox" id={item._id} name={item.name} /> <label htmlFor={item._id}>{item.name}</label>
+        {itemList.map((item) => ( 
+          <li key={item._id}>
+            <input type="checkbox" id={item._id} name={item.name} onChange={(event) => {
+    props.onItemCheck(event)}} defaultChecked={item.status === "Done" && "checked"} />
+            <label htmlFor={item._id}> {item.name} </label>
           </li>
         ))
         }

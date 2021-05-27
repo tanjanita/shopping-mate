@@ -90,14 +90,16 @@ app.patch("/shoppingItem", (request, response) => {
 
   if (mongoose.Types.ObjectId.isValid(request.body._id)) {
 
-    Item.updateOne({_id: request.body._id}, {name: request.body.name}, function(error, result) {
-      // console.log(result);
-      if (error) console.error(error);
-      if (result.ok === 1) {
-        response.send(`Items matching the ID:  ${result.n}. Items updated ${result.nModified}. Item name: "${request.body.name}".`);
-      } else {
-        response.send(`Ooops, that didn't work out. Please try again.`);
-      }
+    Item.updateOne(
+      {_id: request.body._id}, 
+      {[request.body.field]: request.body.value}, 
+      function(error, result) {
+        if (error) console.error(error);
+        if (result.ok === 1) {
+          response.send(`Items matching the ID:  ${result.n}. Items updated ${result.nModified}.`);
+        } else {
+          response.send(`Ooops, that didn't work out. Please try again.`);
+        }
     });
 
   } else {
@@ -126,6 +128,25 @@ app.delete("/shoppingItem", (request, response) => {
   } else {
     response.send(`Ooops, that didn't work out. Please try again.`);
   }
+
+});
+// CRUD: Delete several items
+app.delete("/shoppingItems", (request, response) => {
+
+  const deletionFilter = {[request.body.field]: request.body.value};
+
+  Item.deleteMany(deletionFilter, function(error, result) {
+    // console.log(result);
+    if (error) {
+      console.error(error);
+      response.send(`Ooops, that didn't work out. Please try again.`);
+    }  
+    if (result.ok === 1) {
+      response.send(`Items matching the ID: ${result.n}. Items deleted: ${result.deletedCount}.`);
+    } else {
+      response.send(`Ooops, that didn't work out. Please try again.`);
+    }
+  });
 
 });
 

@@ -1,8 +1,16 @@
-/* Blue 233e8b Green 1eae98 Turquoise a9f1df Yellow ffffc7 */
+/* Blue #233e8b Green #1eae98 Turquoise #a9f1df Yellow #ffffc7 */
 h1 {
-  margin: .5em;
+  margin: .5em 0 .1em;
   color: #ffffc7;
   font-size: 2.6rem;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  font-weight: normal;
+  color: #ffffc7;
+  /* #F0AE62 #E6994E #FF7230 #E3584B #D64740 #63A6D3 #4092C9*/
+  margin-bottom: 1.2em;
 }
 
 p {
@@ -20,6 +28,7 @@ p {
   align-items: center;
   justify-content: center;
   font-size: 1.4rem;
+  font-weight: bold;
   color: #a9f1df;
 }
 
@@ -61,6 +70,12 @@ ul {
   list-style-type: none;
 }
 
+li:hover {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #ffffdc;
+}
+
 button {
   background-color: #233e8b;
   color: #a9f1df;
@@ -80,4 +95,13 @@ input {
   border: none;
   padding: 6px;
   font-size: 1rem;
+}
+
+input[type=checkbox]:not(:checked)+label {
+  text-decoration: none;
+}
+
+input[type=checkbox]:checked+label {
+  color: grey;
+  text-decoration: line-through;
 }
