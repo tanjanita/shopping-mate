@@ -7,7 +7,7 @@ function ItemListing(props) {
   return (
     <div className="itemList">
       <ul>
-        {itemList.map((item) => ( 
+        {itemList.map((item, index) => ( 
           <li key={item._id}>
             <input type="checkbox" id={item._id} name={item.name} onChange={(event) => {
     props.onItemCheck(event)}} defaultChecked={item.status === "Done" && "checked"} />

@@ -7,24 +7,20 @@ import ItemDeletion from './ItemDeletion';
 function Items() {
 
   const [itemList, setItemList] = useState([]);
-  // trigger state for useEffect
-  const [listUpdate, triggerListUpdate] = useState(0);
 
-  useEffect(() => {
-    console.log('useEffect', listUpdate);
-    // fetch directly inside
-      fetch('http://localhost:3333/shoppingItems')
-       .then(data => data.json())
-        .then(jsondata => {
-          setItemList(jsondata);
-        });
-  }, [listUpdate]);
+  useEffect(() => fetchListItemsGET(), []);
 
+  function fetchListItemsGET() {
+    return fetch('http://localhost:3333/shoppingItems')
+      .then(response => response.json())
+      .then(jsondata => setItemList(jsondata))
+  };
 
   function handleItemAddition(event) {
 
     event.preventDefault();
 
+    // POST new item to DB, then fetch new item-list from DB and feed into itemList state variable
     fetch('http://localhost:3333/shoppingItem', {
       method: 'POST',
       headers: {
@@ -33,7 +29,9 @@ function Items() {
       },
       body: JSON.stringify({'name': event.target.name.value})
     })
-    .then(triggerListUpdate(listUpdate+1)); // change state, to trigger list update/useEffect
+      .then(() => {
+        fetchListItemsGET();
+      });
   };
 
   function handleItemCheck(event) {
@@ -52,7 +50,9 @@ function Items() {
       },
       body: JSON.stringify(updateObject)
     })
-    .then(triggerListUpdate(listUpdate+1)); // change state, to trigger list update/useEffect
+      .then(() => {
+        fetchListItemsGET();
+      });
   }
 
   function handleClickDeleteDone() {
@@ -70,9 +70,10 @@ function Items() {
       },
       body: JSON.stringify(deletionFilter)
     })
-    .then(triggerListUpdate(listUpdate+1)); // change state, to trigger list update/useEffect
+      .then(() => {
+        fetchListItemsGET();
+      });
   }
-
 
   return (
     <main className="App-main">
@@ -85,6 +86,7 @@ function Items() {
     </React.StrictMode>
     </main>
   );
+
 }
 
 export default Items;
