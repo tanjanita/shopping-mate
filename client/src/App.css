@@ -8,9 +8,17 @@ h1 {
 .subtitle {
   font-size: 1.2rem;
   font-weight: normal;
-  color: #ffffc7;
+  color: #fde1b7;
   /* #F0AE62 #E6994E #FF7230 #E3584B #D64740 #63A6D3 #4092C9*/
   margin-bottom: 1.2em;
+}
+
+.listheader {
+  padding: 6px 14px;
+  font-size: 1.36rem;
+  /* border: 1px solid #1eae98; */
+  margin-bottom: 0;
+  color: #1eae98;
 }
 
 p {
@@ -27,9 +35,7 @@ p {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 1.4rem;
   font-weight: bold;
-  color: #a9f1df;
 }
 
 .App-main {
