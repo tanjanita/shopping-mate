@@ -1,7 +1,7 @@
-const Item = require('../models/itemModel');
 const mongoose = require('mongoose');
+const Item = require('../models/itemModel');
 
-// Create/post a new item
+
 createItem = async (request, response) => {
 
   if (!request.body.name) {
@@ -18,18 +18,18 @@ createItem = async (request, response) => {
       .then(() => {
         return response.status(201).json({
           success: true,
-          id: item._id,
           message: 'Item created!',
         })
       })
       .catch(error => {
-        return response.status(400).json({
+        console.log("Error:", error);
+        return response.status(422).json({
           error,
           message: 'Item not created!',
         });
       });
 };
-// Read/get all items
+
 getItems = async (request, response) => {
 
   await Item.find({}, (error, items) => {
@@ -45,7 +45,7 @@ getItems = async (request, response) => {
   })
     .catch(error => console.log(error));
 };
-// Update an item
+
 updateItem = async (request, response) => {
 
   const itemId = request.body._id;
@@ -66,7 +66,7 @@ updateItem = async (request, response) => {
           message: 'Item not found!',
         });
       }
-      item.status = request.body.value
+      item.status = request.body.value;
       item
         .save()
         .then(() => {
@@ -92,7 +92,7 @@ updateItem = async (request, response) => {
   }
 
 }
-// Delete several items
+
 deleteItems = async (request, response) => {
 
   const deletionFilter = {[request.body.field]: request.body.value};
