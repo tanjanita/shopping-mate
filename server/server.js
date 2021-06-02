@@ -19,9 +19,12 @@ app.get("/", (request, response) => {
   response.write("<a href='/shoppingItems'>See a list of all shopping items</a>");
   response.send();
 });
+
 // Controller and route specs
 const itemRouter = require('./routes/itemRouter');
-app.use('', itemRouter);
+const categoryRouter = require('./routes/categoryRouter');
+app.use(itemRouter);
+app.use(categoryRouter);
 
 // Start server
 app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`));
