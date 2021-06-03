@@ -1,49 +1,50 @@
-const mongoose = require('mongoose');
-const Item = require('../models/itemModel');
-
+const mongoose = require("mongoose");
+const Item = require("../models/itemModel");
 
 createItem = async (request, response) => {
 
   if (!request.body.name) {
     return response.status(422).json({
       success: false,
-      error: 'Please provide the item name.',
+      error: "Please provide the item name.",
     });
   };
 
-  const newItem = new Item({name: request.body.name, status: "Pending"});
+  const newItem = new Item( {...request.body, ...{status: "Pending"}} );
 
-    newItem
-      .save()
-      .then(() => {
-        return response.status(201).json({
-          success: true,
-          message: 'Item created!',
-        })
+  newItem
+    .save()
+    .then(() => {
+      return response.status(201).json({
+        success: true,
+        message: "Item created.",
       })
-      .catch(error => {
-        console.log("Error:", error);
-        return response.status(422).json({
-          error,
-          message: 'Item not created!',
-        });
+    })
+    .catch(error => {
+      console.log("Error:", error);
+      return response.status(422).json({
+        error,
+        message: "Item not created.",
       });
+    });
 };
 
 getItems = async (request, response) => {
 
-  await Item.find({}, (error, items) => {
-    if (error) {
-      return response.status(400).json({ success: false, error: error });
-    }
-    if (!items.length) {
-      return response
-        .status(404)
-        .json({ success: false, error: `Item not found` });
-    }
-    return response.status(200).json(items);
-  })
-    .catch(error => console.log(error));
+  await Item.find({})
+    .populate("category", "name")
+    .exec((error, items) => {
+      if (error) {
+        return response.status(400).json({ success: false, error: error });
+      }
+      if (!items.length) {
+        return response
+          .status(404)
+          .json({ success: false, error: "Item not found." });
+      }
+      return response.status(200).json(items);
+    });
+    // .catch(error => console.log(error));
 };
 
 updateItem = async (request, response) => {
@@ -53,7 +54,7 @@ updateItem = async (request, response) => {
   if (!itemId) {
       return response.status(400).json({
           success: false,
-          error: 'Please provide an item ID to update.',
+          error: "Please provide an item ID to update.",
       })
   }
 
@@ -63,7 +64,7 @@ updateItem = async (request, response) => {
       if (error) {
         return response.status(404).json({
           error,
-          message: 'Item not found!',
+          message: "Item not found.",
         });
       }
       item.status = request.body.value;
@@ -73,13 +74,13 @@ updateItem = async (request, response) => {
           return response.status(200).json({
             success: true,
             id: item._id,
-            message: 'Item updated!',
+            message: "Item updated.",
           })
         })
         .catch(error => {
           return response.status(422).json({
             error,
-            message: 'Item not updated!',
+            message: "Item not updated.",
           });
         });
     });
@@ -87,7 +88,7 @@ updateItem = async (request, response) => {
   } else {
     return response.status(404).json({
       error,
-      message: 'Item ID not valid.',
+      message: "Item ID not valid.",
     });
   }
 
@@ -106,7 +107,7 @@ deleteItems = async (request, response) => {
           .status(200)
           .json({ success: true, message: `Items matching: ${result.n}. Items deleted: ${result.deletedCount}.` });
       }
-      return response.status(422).json({ success: false, error: 'Could not process request'});
+      return response.status(422).json({ success: false, error: "Could not process request"});
     })
     .catch(error => console.log(error));
 };
