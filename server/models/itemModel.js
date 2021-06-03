@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const itemSchema = new mongoose.Schema({
   name: {
@@ -8,6 +8,10 @@ const itemSchema = new mongoose.Schema({
   status: {
     type: String,
     required: [true, "Please a status for the item."]
+  },
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category"
   }
 });
 
