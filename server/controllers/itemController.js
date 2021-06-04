@@ -32,7 +32,8 @@ createItem = async (request, response) => {
 getItems = async (request, response) => {
 
   await Item.find({})
-    .populate("category", "name")
+  .sort('name')
+  .populate("category", "name")
     .exec((error, items) => {
       if (error) {
         return response.status(400).json({ success: false, error: error });

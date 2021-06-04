@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ItemCategory from './ItemCategory';
 
 function ItemAddition(props) {
 
@@ -7,7 +8,11 @@ function ItemAddition(props) {
   return (
     <div>
     <form onSubmit={props.onFormSubmit}>
-      <input type="text" onChange={event => setItemInput(event.target.value)} name="name" value={itemInput}/> <button type="submit">Add item</button>
+      <input className="addItem" type="text" onChange={event => setItemInput(event.target.value)} name="name" value={itemInput} placeholder="Add a new item"/>
+
+      <ItemCategory categoryOptions={props.categoryOptions} />
+
+      <button type="submit">Add</button>
     </form>
     </div>
   );

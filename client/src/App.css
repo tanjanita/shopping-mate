@@ -15,7 +15,7 @@ h1 {
 
 .listheader {
   padding: 6px 14px;
-  font-size: 1.36rem;
+  font-size: 1.3rem;
   /* border: 1px solid #1eae98; */
   margin-bottom: 0;
   color: #1eae98;
@@ -42,7 +42,7 @@ p {
   background-color: #1eae98;
   color: #ffffc7;
   padding: 1rem;
-  width: 320px;
+  width: 280px;
   text-align: center;
   margin: 0 auto;
 }
@@ -76,6 +76,10 @@ ul {
   list-style-type: none;
 }
 
+li {
+  padding: 2px;
+}
+
 li:hover {
   font-size: 1.2em;
   font-weight: bold;
@@ -86,22 +90,33 @@ button {
   background-color: #233e8b;
   color: #a9f1df;
   border: none;
-  padding: 6px 12px;
+  padding: 4px 12px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 1rem;
-  margin: 4px 2px;
+  margin: 4px 0;
   cursor: pointer;
 }
 
-input {
-  background-color: #ffffc7;
+input.addItem {
   color: #233e8b;
   border: none;
-  padding: 6px;
-  font-size: 1rem;
+  padding: 4px 12px;
+  font-size: .9rem;
+  width: 250px;
 }
+
+select {
+  background-color: #ffffc7;
+  color: #6d7486;
+  border: none;
+  padding: 4px 8px;
+  margin-right: 8px;
+  font-size: .9rem;
+  width: 214px;
+}
+
 
 input[type=checkbox]:not(:checked)+label {
   text-decoration: none;
