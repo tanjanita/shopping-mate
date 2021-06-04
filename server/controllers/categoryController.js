@@ -42,7 +42,7 @@ getCategories = async (request, response) => {
         .json({ success: false, error: "Category not found." });
     }
     return response.status(200).json(categories);
-  })
+  }).sort('name')
     .catch(error => console.log(error));
 };
 

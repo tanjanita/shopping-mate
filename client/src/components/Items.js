@@ -7,8 +7,12 @@ import ItemDeletion from './ItemDeletion';
 function Items() {
 
   const [itemList, setItemList] = useState([]);
+  const [categoryOptions, setCategoryOptions] = useState([]);
 
-  useEffect(() => fetchListItemsGET(), []);
+  useEffect(() => {
+    fetchListItemsGET();
+    fetchCategoryOptionsGET();
+  }, []);
 
   function fetchListItemsGET() {
     return fetch('http://localhost:3333/shoppingItems')
@@ -16,9 +20,22 @@ function Items() {
       .then(jsondata => setItemList(jsondata))
   };
 
+  function fetchCategoryOptionsGET() {
+    return fetch('http://localhost:3333/categories')
+      .then(response => response.json())
+      .then(jsondata => setCategoryOptions(jsondata))
+  };
+
   function handleItemAddition(event) {
 
     event.preventDefault();
+
+    let newItem = { 'name': event.target.name.value };
+    if ( event.target.category.value !== "") {
+     newItem = {...newItem, 'category': event.target.category.value };
+    }
+
+    console.log(newItem);
 
     // POST new item to DB, then fetch new item-list from DB and feed into itemList state variable
     fetch('http://localhost:3333/shoppingItem', {
@@ -27,7 +44,7 @@ function Items() {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({'name': event.target.name.value})
+      body: JSON.stringify( newItem )
     })
       .then(() => {
         fetchListItemsGET();
@@ -79,7 +96,7 @@ function Items() {
     <main className="App-main">
     <React.StrictMode>
 
-      <ItemAddition onFormSubmit={handleItemAddition} />
+      <ItemAddition onFormSubmit={handleItemAddition} categoryOptions={categoryOptions} />
       <ItemListing itemList={itemList} onItemCheck={handleItemCheck} />
       <ItemDeletion onClickDeleteDone={handleClickDeleteDone} />
 
