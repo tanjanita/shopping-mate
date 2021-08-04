@@ -32,8 +32,8 @@ createItem = async (request, response) => {
 getItems = async (request, response) => {
 
   await Item.find({})
-  .sort('name')
-  .populate("category", "name")
+    .sort({category: 1, name: 1})
+    .populate('category')
     .exec((error, items) => {
       if (error) {
         return response.status(400).json({ success: false, error: error });
@@ -47,6 +47,7 @@ getItems = async (request, response) => {
     });
     // .catch(error => console.log(error));
 };
+
 
 updateItem = async (request, response) => {
 
