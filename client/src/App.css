@@ -66,6 +66,7 @@ a:hover {
 
 input {
   display: inline-block;
+  margin-right: 8px;
 }
 
 .itemList {
@@ -81,9 +82,14 @@ li {
 }
 
 li:hover {
-  font-size: 1.2em;
-  font-weight: bold;
+  /* font-weight: bold; */
+  background-color: #233e8b;
   color: #ffffdc;
+}
+
+li label {
+  display: inline-block;
+  width: 200px;
 }
 
 button {
@@ -117,6 +123,11 @@ select {
   width: 214px;
 }
 
+ul {
+  padding-left: 0;
+  margin: 0;
+}
+
 
 input[type=checkbox]:not(:checked)+label {
   text-decoration: none;
@@ -125,4 +136,14 @@ input[type=checkbox]:not(:checked)+label {
 input[type=checkbox]:checked+label {
   color: grey;
   text-decoration: line-through;
+}
+
+
+.category__headline {
+  color: #a9f1df;
+  margin-bottom: .2em;
+}
+
+.button--delete {
+  margin: 2rem 0 4px 0;
 }
