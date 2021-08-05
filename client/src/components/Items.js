@@ -6,8 +6,11 @@ import ItemDeletion from './ItemDeletion';
 
 function Items() {
 
-  const [itemList, setItemList] = useState([]);
+  const [itemInput, setItemInput] = useState('');
+  const [itemInputError, setItemInputError] = useState('');
   const [categoryOptions, setCategoryOptions] = useState([]);
+  const [categorySelected, setCategorySelected] = useState('');
+  const [itemList, setItemList] = useState([]);
 
   useEffect(() => {
     fetchListItemsGET();
@@ -18,38 +21,55 @@ function Items() {
     return fetch('http://localhost:3333/shoppingItems')
       .then(response => response.json())
       .then(jsondata => setItemList(jsondata))
-  };
+  }
 
   function fetchCategoryOptionsGET() {
     return fetch('http://localhost:3333/categories')
       .then(response => response.json())
       .then(jsondata => setCategoryOptions(jsondata))
-  };
+  }
+
+  function handleItemInputChange(event) {
+    setItemInput(event.target.value);
+    setItemInputError("");
+  }
+
+  function handleCategoryChange(event) {
+    setCategorySelected(event.target.value);
+  }
 
   function handleItemAddition(event) {
 
     event.preventDefault();
 
-    let newItem = { 'name': event.target.name.value };
-    if ( event.target.category.value !== "") {
-     newItem = {...newItem, 'category': event.target.category.value };
-    }
+    // Item name must be given
+    if (event.target.name.value === "") {
+      setItemInputError("Please enter an item name:");
+    } else {
 
-    console.log(newItem);
-
-    // POST new item to DB, then fetch new item-list from DB and feed into itemList state variable
-    fetch('http://localhost:3333/shoppingItem', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify( newItem )
-    })
+      let newItem = { 'name': event.target.name.value };
+      if ( event.target.category.value !== "") {
+        newItem = {...newItem, 'category': event.target.category.value };
+      }
+      
+      // POST new item to DB, fetch new item-list from DB
+      fetch('http://localhost:3333/shoppingItem', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify( newItem )
+      })
       .then(() => {
         fetchListItemsGET();
+        // delete values from form fields
+        setItemInput("");
+        setCategorySelected("");
       });
-  };
+
+    }
+  }
 
   function handleItemCheck(event) {
 
@@ -72,7 +92,7 @@ function Items() {
       });
   }
 
-  function handleClickDeleteDone() {
+  function handleClickDeleteTicked() {
     
     const deletionFilter = {
       'field': 'status', 
@@ -94,13 +114,22 @@ function Items() {
 
   return (
     <main className="App-main">
-    <React.StrictMode>
+      <React.StrictMode>
 
-      <ItemAddition onFormSubmit={handleItemAddition} categoryOptions={categoryOptions} />
-      <ItemListing itemList={itemList} onItemCheck={handleItemCheck} />
-      <ItemDeletion onClickDeleteDone={handleClickDeleteDone} />
+        <ItemAddition 
+          onFormSubmit={handleItemAddition} 
+          itemInput={itemInput} 
+          itemInputError={itemInputError}
+          onItemInputChange={handleItemInputChange} 
+          categoryOptions={categoryOptions} 
+          categorySelected={categorySelected} 
+          onCategoryChange={handleCategoryChange} />
 
-    </React.StrictMode>
+        <ItemListing itemList={itemList} onItemCheck={handleItemCheck} />
+        
+        <ItemDeletion onClickDeleteTicked={handleClickDeleteTicked} />
+
+      </React.StrictMode>
     </main>
   );
 

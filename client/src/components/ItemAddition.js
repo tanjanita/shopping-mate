@@ -1,20 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ItemCategory from './ItemCategory';
 
 function ItemAddition(props) {
-
-  const [itemInput, setItemInput] = useState('');
-
   return (
-    <div>
     <form onSubmit={props.onFormSubmit}>
-      <input className="addItem" type="text" onChange={event => setItemInput(event.target.value)} name="name" value={itemInput} placeholder="Add a new item"/>
 
-      <ItemCategory categoryOptions={props.categoryOptions} />
+      <p>{props.itemInputError}</p>
+      <input 
+        className="addItem" 
+        type="text" 
+        name="name" 
+        placeholder=" --- Add a new item --- "  
+        value={props.itemInput}
+        onChange={props.onItemInputChange} />
+
+      <ItemCategory
+        categoryOptions={props.categoryOptions} 
+        categorySelected={props.categorySelected} 
+        onCategoryChange={props.onCategoryChange} />
 
       <button type="submit">Add</button>
     </form>
-    </div>
   );
 }
 
