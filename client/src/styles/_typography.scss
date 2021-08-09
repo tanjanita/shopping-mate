@@ -1,0 +1,72 @@
+/*------------------ Typography ------------------*/
+$font-sans-serif: 'Segoe UI',
+'Roboto',
+'Oxygen',
+'Ubuntu',
+'Cantarell',
+'Fira Sans',
+'Droid Sans',
+'Helvetica Neue',
+sans-serif;
+
+$text-body: 1rem;
+$text-huge: $text-body * 2.3;
+$text-h1: $text-body * 1.875; // 30
+$text-h2: $text-body * 1.25; // 20
+$text-h3: $text-body * 1.125; // 18
+$text-sm: $text-body * 0.875;
+$text-xs: $text-body * 0.75;
+
+$factor-medium: 1.2;
+$factor-large: 1.3;
+$factor-xlarge: 1.5;
+
+html {
+  font-family: $font-sans-serif;
+  font-size: 100%; // 100% equals 1rem, browser standard is usually 16px. Using 100% avoids a sizing problem in older IE browsers.
+  font-weight: 400;
+  color: $colour-base-light;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0 0 .2em;
+  font-family: $font-sans-serif;
+  font-weight: 700;
+  color: $colour-yellow-light;
+}
+
+h1 {
+  font-size: $text-h1;
+
+  @include screen(p-medium) {
+    font-size: $text-h1 * $factor-medium;
+    margin-top: 36px;
+  }
+
+  @include screen(p-large) {
+    font-size: $text-h1 * $factor-large;
+  }
+
+  @include screen(p-xlarge) {
+    font-size: $text-h1 * $factor-xlarge;
+  }
+}
+
+h3 {
+  font-size: $text-h3;
+
+  @include screen(p-medium) {
+    font-size: $text-h3 * $factor-medium;
+    margin-top: 36px;
+  }
+
+  @include screen(p-large) {
+    font-size: $text-h3 * $factor-large;
+  }
+
+  @include screen(p-xlarge) {
+    font-size: $text-h3 * $factor-xlarge;
+  }
+}

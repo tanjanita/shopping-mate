@@ -4,22 +4,24 @@ import ItemCategory from './ItemCategory';
 function ItemAddition(props) {
   return (
     <form onSubmit={props.onFormSubmit}>
-
-      <p>{props.itemInputError}</p>
+    <h2 className="screen-reader-only">Add items</h2>
+      <p className="addItem__message">{props.itemInputError}</p>
+      <label className="addItem__label screen-reader-only" htmlFor="addItem">Add item: </label>
       <input 
-        className="addItem" 
+        id="addItem"
+        className="addItem__input" 
         type="text" 
         name="name" 
-        placeholder=" --- Add a new item --- "  
+        placeholder="--- Add a new item --- "  
         value={props.itemInput}
         onChange={props.onItemInputChange} />
-
-      <ItemCategory
-        categoryOptions={props.categoryOptions} 
-        categorySelected={props.categorySelected} 
-        onCategoryChange={props.onCategoryChange} />
-
-      <button type="submit">Add</button>
+      <div className="flex-row-space-between">
+        <ItemCategory
+          categoryOptions={props.categoryOptions} 
+          categorySelected={props.categorySelected} 
+          onCategoryChange={props.onCategoryChange} />
+        <button className="button" type="submit">Add</button>
+      </div>
     </form>
   );
 }
