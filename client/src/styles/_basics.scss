@@ -1,0 +1,36 @@
+/*------------------ Basics ------------------*/
+body {
+  background: $colour-blue;
+  text-align: center;
+}
+
+.button {
+  display: inline-block;
+  padding: 4px 10px;
+  border: none;
+  background-color: $colour-blue;
+  color: $colour-green-light;
+  text-align: center;
+  text-decoration: none;
+  font-size: $text-sm;
+  cursor: pointer;
+
+  @include screen(ls-small) {
+    font-size: $text-body;
+  }
+}
+
+.screen-reader-only {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px); // IE6, IE7 
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+.flex-row-space-between {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}

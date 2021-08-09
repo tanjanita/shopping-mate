@@ -1,0 +1,32 @@
+/*------------------ Header ------------------*/
+.header {
+
+  &__headline {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-top: 20px;
+  }
+
+  &__logo {
+    margin: 0 0 .2rem .3rem;
+    width: 3rem;
+    height: 3rem;
+
+    @include screen(p-medium) {
+      width: 4rem;
+      height: 4rem;
+    }
+  }
+
+  &__subtitle {
+    margin-bottom: 1.6em;
+    font-size: $text-sm;
+    color: $colour-green-light;
+
+    @include screen(p-medium) {
+      margin-bottom: 2.4em;
+      font-size: $text-body;
+    }
+  }
+}

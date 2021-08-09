@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
 import ItemAddition from './ItemAddition';
 import ItemListing from './ItemListing';
 import ItemDeletion from './ItemDeletion';
@@ -113,8 +112,9 @@ function Items() {
   }
 
   return (
-    <main className="App-main">
-      <React.StrictMode>
+    <main className="main">
+
+      {/* <p className="listheader">Let's split up that shopping list</p> */}
 
         <ItemAddition 
           onFormSubmit={handleItemAddition} 
@@ -129,7 +129,6 @@ function Items() {
         
         <ItemDeletion onClickDeleteTicked={handleClickDeleteTicked} />
 
-      </React.StrictMode>
     </main>
   );
 

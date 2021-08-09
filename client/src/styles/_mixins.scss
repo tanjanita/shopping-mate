@@ -1,0 +1,73 @@
+/*------------------ Mixins ------------------*/
+// Medium phones
+$breakpoint-portrait-medium: 350px;
+// Large phones
+$breakpoint-portrait-large: 400px;
+// Tablets
+$breakpoint-portrait-xlarge: 600px;
+
+// Landscape tablets / Old small desktops
+$breakpoint-landscape-small: 900px;
+// Medium desktops
+$breakpoint-landscape-medium: 1300px;
+// Large desktops
+$breakpoint-landscape-large: 1700px;
+// Huge desktops
+$breakpoint-landscape-xlarge: 2200px;
+
+
+@mixin screen($size, $minmax: min, $breakpoint: $breakpoint-portrait-medium) {
+
+  @if $size=='p-medium' {
+    @media only screen and (min-width: $breakpoint-portrait-medium) {
+      @content;
+    }
+  }
+
+  @else if $size=='p-large' {
+    @media only screen and (min-width: $breakpoint-portrait-large) {
+      @content;
+    }
+  }
+
+  @else if $size=='p-xlarge' {
+    @media only screen and (min-width: $breakpoint-portrait-xlarge) {
+      @content;
+    }
+  }
+
+  @else if $size=='ls-small' {
+    @media only screen and (min-width: $breakpoint-landscape-small) {
+      @content;
+    }
+  }
+
+  @else if $size=='ls-medium' {
+    @media only screen and (min-width: $breakpoint-landscape-medium) {
+      @content;
+    }
+  }
+
+  @else if $size=='ls-large' {
+    @media only screen and (min-width: $breakpoint-landscape-large) {
+      @content;
+    }
+  }
+
+  @else if $size=='ls-xlarge' {
+    @media only screen and (min-width: $breakpoint-landscape-xlarge) {
+      @content;
+    }
+  }
+
+  @else if $size=='custom' {
+    @media only screen and (#{$minmax}-width: #{$breakpoint}) {
+      @content;
+    }
+  }
+
+  /* if the screen variable $size does not match up */
+  @else {
+    @content;
+  }
+}

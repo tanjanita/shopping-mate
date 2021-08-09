@@ -1,0 +1,20 @@
+/*------------------ Footer ------------------*/
+.footer {
+  color: $colour-green-medium;
+  font-size: .8rem;
+  padding: 1rem 0 0;
+}
+
+.credits__link {
+
+  &:link,
+  :visited,
+  :active {
+    color: $colour-green-medium;
+    // text-decoration: underline;
+  }
+
+  &:hover {
+    color: $colour-green-light;
+  }
+}

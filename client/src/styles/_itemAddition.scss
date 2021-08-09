@@ -1,0 +1,32 @@
+/*------------------ ItemAddition ------------------*/
+.addItem {
+
+  &__message {
+    padding: 2px 4px 4px;
+    color: $colour-blue;
+    font-size: $text-sm;
+    font-weight: bold;
+
+    @include screen(ls-small) {
+      font-size: $text-body;
+    }
+  }
+
+  &__label {
+    color: $colour-blue;
+  }
+
+  &__input {
+    margin-bottom: 6px;
+    padding: 3px 4px 3px 8px;
+    width: 100%;
+    border: none;
+    background-color: $colour-brown-pale;
+    color: $colour-blue;
+    font-size: $text-sm;
+
+    @include screen(ls-small) {
+      font-size: $text-body;
+    }
+  }
+}

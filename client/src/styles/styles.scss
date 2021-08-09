@@ -1,0 +1,18 @@
+//------------------ Importing all SCSS files
+/*------------------ Third-party standardisation ------------------*/
+@import 'standardisation/normalize';
+@import 'standardisation/ESreset';
+/*------------------ Project-specific styles ------------------*/
+@import 'mixins';
+@import 'variables';
+@import 'typography';
+@import 'basics';
+
+@import 'app';
+@import 'header';
+@import 'main';
+@import 'itemAddition';
+@import 'itemCategory';
+@import 'itemListing';
+@import 'itemDeletion';
+@import 'footer';
