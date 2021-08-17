@@ -6,6 +6,7 @@ const db = require('./db')
 // Mongoose data models
 const Item = require('./models/itemModel');
 const Category = require('./models/categoryModel');
+const List = require('./models/listModel');
 
 // Server specs
 const app = express();
@@ -23,8 +24,10 @@ app.get("/", (request, response) => {
 // Controller and route specs
 const itemRouter = require('./routes/itemRouter');
 const categoryRouter = require('./routes/categoryRouter');
+const listRouter = require('./routes/listRouter');
 app.use(itemRouter);
 app.use(categoryRouter);
+app.use(listRouter);
 
 // Start server
 app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`));

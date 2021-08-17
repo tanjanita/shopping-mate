@@ -61,8 +61,9 @@ function Items() {
         body: JSON.stringify( newItem )
       })
       .then(() => {
+        // Update list of items
         fetchListItemsGET();
-        // delete values from form fields
+        // Delete values from form fields
         setItemInput("");
         setCategorySelected("");
       });
@@ -131,7 +132,6 @@ function Items() {
 
     </main>
   );
-
 }
 
 export default Items;
