@@ -1,5 +1,20 @@
 const mongoose = require("mongoose");
+const List = require("../models/listModel");
 const Item = require("../models/itemModel");
+
+// // first way:
+
+// let newMessage = {title: "new title", msg: "new Message"}
+// let result = await Contact.findById(id);
+// result.messages.push(newMessage);
+// await result.save();
+
+// // second way
+
+// let result = await Contact.findByIdAndUpdate(
+//         id,
+//         {$push: {"messages": {title: title, msg: msg}}},
+//         {upsert: true, new : true})
 
 createItem = async (request, response) => {
 
@@ -10,44 +25,75 @@ createItem = async (request, response) => {
     });
   };
 
+  // add checks if listID is given/valid/found 
+  // > might create function for this, as this happens repeatedly
+  
+  const listID = request.params['id'];
   const newItem = new Item( {...request.body, ...{status: "Pending"}} );
 
-  newItem
-    .save()
+  let result = await List.findById(listID);
+  // console.log(result);
+  result.items.push(newItem);
+  await result.save()
     .then(() => {
       return response.status(201).json({
         success: true,
-        message: "Item created.",
+        message: "Item added to this list.",
       })
     })
     .catch(error => {
       console.log("Error:", error);
       return response.status(422).json({
         error,
-        message: "Item not created.",
+        message: "Could not create item.",
       });
     });
 };
 
 getItems = async (request, response) => {
 
-  await Item.find({})
-    .sort({category: 1, name: 1})
-    .populate('category')
-    .exec((error, items) => {
+  const listID = request.params['id'];
+  // add ID check, valid/missing
+
+  await List.findById(listID)
+  .populate('items.category')
+  .sort({'items.category.name': 'ascending', 'items.name': 'ascending'})
+  .exec((error, queryResult) => {
       if (error) {
         return response.status(400).json({ success: false, error: error });
       }
-      if (!items.length) {
+      if (!queryResult) {
         return response
           .status(404)
-          .json({ success: false, error: "Item not found." });
+          .json({ success: false, error: "No matching list found." });
       }
-      return response.status(200).json(items);
+      if (queryResult.items) {
+        queryResult.items.sort((a, b) => {
+          if (a.name < b.name) {
+            return -1;
+          }
+          if (a.name > b.name) {
+            return 1;
+          }
+          return 0;
+        });
+        queryResult.items.sort((a, b) => {
+          if (a.category && b.category) { 
+            if (a.category.name < b.category.name) {
+              return -1;
+            }
+            if (a.category.name > b.category.name) {
+              return 1;
+            }
+            return 0;
+          }
+          return -1;
+        });
+        // queryResult.items = sortedCategoryNames;
+      }
+      return response.status(200).json(queryResult);
     });
-    // .catch(error => console.log(error));
 };
-
 
 updateItem = async (request, response) => {
 
@@ -63,7 +109,7 @@ updateItem = async (request, response) => {
   if (mongoose.Types.ObjectId.isValid(itemId)) {
 
     Item.findOne({ _id: itemId }, (error, item) => {
-      if (error) {
+      if (error || item === null) {
         return response.status(404).json({
           error,
           message: "Item not found.",
@@ -89,7 +135,7 @@ updateItem = async (request, response) => {
 
   } else {
     return response.status(404).json({
-      error,
+      success: false,
       message: "Item ID not valid.",
     });
   }

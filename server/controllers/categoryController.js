@@ -60,7 +60,7 @@ updateCategory = async (request, response) => {
   if (mongoose.Types.ObjectId.isValid(categoryId)) {
 
     Category.findOne({ _id: categoryId }, (error, category) => {
-      if (error) {
+      if (error || category === null) {
         console.log(error);
         return response.status(404).json({
           error: error,
@@ -87,7 +87,7 @@ updateCategory = async (request, response) => {
 
   } else {
     return response.status(422).json({
-      error: error,
+      success: false,
       message: "Category ID not valid.",
     });
   }
