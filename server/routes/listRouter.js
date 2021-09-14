@@ -3,9 +3,8 @@ const ListController = require('../controllers/listController');
 
 const listRouter = express.Router();
 
-listRouter.post('/lists', ListController.createList);
-listRouter.get('/lists', ListController.getLists);
-listRouter.patch('/lists', ListController.updateList);
-listRouter.delete('/lists', ListController.deleteLists);
+listRouter.post('/api/lists', ListController.createList);
+listRouter.get('/api/lists/:listId', ListController.readList);
+listRouter.delete('/api/lists/:listId', ListController.deleteList);
 
 module.exports = listRouter;

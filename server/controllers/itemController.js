@@ -1,168 +1,133 @@
-const mongoose = require("mongoose");
-const List = require("../models/listModel");
-const Item = require("../models/itemModel");
+const mongoose = require('mongoose');
+const List = require('../models/listModel');
+const Item = require('../models/itemModel').Item;
+const Category = require('../models/categoryModel');
+const { v4: uuidv4, validate: uuidValidate } = require('uuid');
 
-// // first way:
+const uriBase = 'localhost:33333/api';
 
-// let newMessage = {title: "new title", msg: "new Message"}
-// let result = await Contact.findById(id);
-// result.messages.push(newMessage);
-// await result.save();
-
-// // second way
-
-// let result = await Contact.findByIdAndUpdate(
-//         id,
-//         {$push: {"messages": {title: title, msg: msg}}},
-//         {upsert: true, new : true})
-
+// Create: HTTP POST /api/lists/{listId}/items
 createItem = async (request, response) => {
 
+  // check mandatory list ID
+  const listId = request.params['listId'];
+  if (!uuidValidate(listId)) {
+    return response.status(422).json({ success: false, error: 'List ID is not valid.' })
+  }
+  // check for mandatory item name
   if (!request.body.name) {
-    return response.status(422).json({
-      success: false,
-      error: "Please provide the item name.",
-    });
+    return response.status(422).json({ success: false, error: 'Item name is missing.' });
   };
 
-  // add checks if listID is given/valid/found 
-  // > might create function for this, as this happens repeatedly
-  
-  const listID = request.params['id'];
-  const newItem = new Item( {...request.body, ...{status: "Pending"}} );
+  // create new item
+  newItemId = uuidv4();
+  const newItem = new Item( {UUID: newItemId, name: request.body.name, status: 'Pending'} );
 
-  let result = await List.findById(listID);
-  // console.log(result);
-  result.items.push(newItem);
-  await result.save()
-    .then(() => {
-      return response.status(201).json({
-        success: true,
-        message: "Item added to this list.",
+  // check for categoryId, if given: pull objectId and add it to newItem
+  const categoryId = request.body.category;
+  if (categoryId) {
+    if (!uuidValidate(categoryId)) {
+      return response.status(422).json({ success: false, error: 'Category ID is not valid.' })
+    }
+    // pull categoryObjectId
+    const categoryObjectId = await Category.findOne({ 'UUID': categoryId })
+      .select('_id')
+      .exec()
+      .then(queryResult => {
+        if (!queryResult) {
+          return response.status(404).json({ success: false, error: 'Category not found.' });
+        }
+        return queryResult._id;
       })
-    })
-    .catch(error => {
-      console.log("Error:", error);
-      return response.status(422).json({
-        error,
-        message: "Could not create item.",
+      .catch(findError => {
+        return response.status(500).json({ success: false, message: 'Error fetching category.', error: findError });
       });
-    });
+
+    // add categoryObjectId to newItem
+    newItem.category = categoryObjectId;
+  }
+
+  // pull list
+  const listFound = await List.findOne({'UUID': listId});
+  // check if list was found or not
+  if (listFound) {
+    // push newItem into listFound, save and return response
+    listFound.items.push(newItem);
+    listFound.save()
+      .then(() => {
+        return response.status(201).json({
+          success: true,
+          message: 'Item added to list.',
+          'list uri': `${uriBase}/lists/${listId}`
+        })
+      })
+      .catch(error => {
+        return response.status(500).json({ success: false, message: 'Error saving item to list.', error: error });
+      });
+  } else {
+    return response.status(404).json({ success: false, error: 'List not found.' });
+  }
 };
 
-getItems = async (request, response) => {
-
-  const listID = request.params['id'];
-  // add ID check, valid/missing
-
-  await List.findById(listID)
-  .populate('items.category')
-  .sort({'items.category.name': 'ascending', 'items.name': 'ascending'})
-  .exec((error, queryResult) => {
-      if (error) {
-        return response.status(400).json({ success: false, error: error });
-      }
-      if (!queryResult) {
-        return response
-          .status(404)
-          .json({ success: false, error: "No matching list found." });
-      }
-      if (queryResult.items) {
-        queryResult.items.sort((a, b) => {
-          if (a.name < b.name) {
-            return -1;
-          }
-          if (a.name > b.name) {
-            return 1;
-          }
-          return 0;
-        });
-        queryResult.items.sort((a, b) => {
-          if (a.category && b.category) { 
-            if (a.category.name < b.category.name) {
-              return -1;
-            }
-            if (a.category.name > b.category.name) {
-              return 1;
-            }
-            return 0;
-          }
-          return -1;
-        });
-        // queryResult.items = sortedCategoryNames;
-      }
-      return response.status(200).json(queryResult);
-    });
-};
-
+// Update: HTTP PATCH /api/lists/{listId}/items/{itemId} 
+// (only handling status updates, item names are not editable)
 updateItem = async (request, response) => {
 
-  const itemId = request.body._id;
-
-  if (!itemId) {
-      return response.status(400).json({
-          success: false,
-          error: "Please provide an item ID to update.",
-      })
+  const listId = request.params['listId'];
+  const itemId = request.params['itemId'];
+  if (!uuidValidate(listId) || !uuidValidate(itemId)) {
+    return response.status(422).json({ success: false, error: 'List and/or item ID are not valid.' })
   }
 
-  if (mongoose.Types.ObjectId.isValid(itemId)) {
-
-    Item.findOne({ _id: itemId }, (error, item) => {
-      if (error || item === null) {
-        return response.status(404).json({
-          error,
-          message: "Item not found.",
-        });
+  List.findOneAndUpdate(
+    { 'UUID': listId, 'items.UUID': itemId },
+    { '$set': { 'items.$.status': request.body.status } },
+    function(error, queryResult) {
+      if (error) {
+        return response.status(500).json({ success: false, message: 'Error updating item status.', error: error });
       }
-      item.status = request.body.value;
-      item
-        .save()
-        .then(() => {
-          return response.status(200).json({
+      if (!queryResult) {
+        return response.status(404).json({ success: false, error: 'Item not found.' });
+      }
+      return response.status(200).json({
             success: true,
-            id: item._id,
-            message: "Item updated.",
-          })
-        })
-        .catch(error => {
-          return response.status(422).json({
-            error,
-            message: "Item not updated.",
-          });
-        });
-    });
+            message: 'Item status updated.',
+            'list uri': `${uriBase}/lists/${listId}`
+      });
+    }
+  );
+};
 
-  } else {
-    return response.status(404).json({
-      success: false,
-      message: "Item ID not valid.",
-    });
-  }
-
-}
-
+// Delete: HTTP DELETE /api/lists/{listId}/items
+// (all items with status "Done" in the list will be deleted)
 deleteItems = async (request, response) => {
 
-  const deletionFilter = {[request.body.field]: request.body.value};
+  const listId = request.params['listId'];
+  if (!uuidValidate(listId)) {
+    return response.status(422).json({ success: false, error: 'List ID is not valid.' })
+  }
 
-    await Item.deleteMany(deletionFilter, (error, result) => {
+  List.updateOne(
+    { 'UUID': listId },
+    { '$pull': { items: { status: 'Done' } } },
+    function(error, numberAffected) { 
       if (error) {
-          return response.status(400).json({ success: false, error: error });
+        return response.status(500).json({ success: false, message: 'Error deleting items', error: error });
       }
-      if (result.ok === 1) {
-        return response
-          .status(200)
-          .json({ success: true, message: `Items matching: ${result.n}. Items deleted: ${result.deletedCount}.` });
+      if (numberAffected.n === 0) {
+        return response.status(404).json({ success: false, error: 'List not found.' });
       }
-      return response.status(422).json({ success: false, error: "Could not process request"});
-    })
-    .catch(error => console.log(error));
+      return response.status(200).json({
+        success: true,
+        message: "All items with status 'Done' were deleted from this list.",
+        'list uri': `${uriBase}/lists/${listId}`
+      })
+    }
+  );
 };
 
 module.exports = {
   createItem,
-  getItems,
   updateItem,
   deleteItems
 };

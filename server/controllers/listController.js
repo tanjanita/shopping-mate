@@ -1,131 +1,115 @@
-const mongoose = require("mongoose");
-const List = require("../models/listModel");
+const mongoose = require('mongoose');
+const List = require('../models/listModel');
+const { v4: uuidv4, validate: uuidValidate } = require('uuid');
 
+const uriBase = 'localhost:33333/api';
+
+// Create: HTTP POST /api/lists
 createList = async (request, response) => {
 
   if (!request.body.name) {
-    return response.status(422).json({
-      success: false,
-      error: "Please provide a list name.",
-    });
+    return response.status(422).json({ success: false, error: 'Please provide a list name.' });
   };
 
-  const newList = new List( {...request.body} );
+  newUUID = uuidv4();
+  const newList = new List( {'UUID': newUUID, ...request.body} );
 
-  newList
+  await newList
     .save()
     .then(() => {
-      return response.status(201).json({
-        success: true,
-        message: "List created.",
+      return response.status(201).json({ 
+        success: true, 
+        message: `List '${request.body.name}' was created.`, 
+        'list uri': `${uriBase}/lists/${newUUID}`
       })
     })
-    .catch(error => {
-      console.log("Error:", error);
-      return response.status(422).json({
-        error,
-        message: "List not created.",
+    .catch(saveError => {
+      return response.status(500).json({
+        success: false, 
+        message: 'Error saving the new list.',      
+        error: saveError
       });
     });
 };
 
-getLists = async (request, response) => {
+// Read: HTTP GET /api/lists/{listId} 
+// (list must be identified by ID, overview of lists is not available)
+readList = async (request, response) => {
 
-  await List.find({})
-    .sort({name: 1})
-    .populate('category')
-    .exec((error, lists) => {
+  const listId = request.params['listId'];
+  if (!uuidValidate(listId)) {
+    return response.status(422).json({ success: false, error: 'List ID is not valid.' })
+  }
+
+  await List.findOne({ 'UUID': listId })
+    .select('-_id -__v -items._id -createdAt -updatedAt')
+    .populate('items.category',  { _id: 0, __v: 0 })
+    .exec((error, queryResult) => {
       if (error) {
-        return response.status(400).json({ success: false, error: error });
+        return response.status(500).json({ success: false, message: 'Error fetching the list', error: error });
       }
-      if (!lists.length) {
-        return response
-          .status(404)
-          .json({ success: false, error: "List not found." });
+      if (!queryResult) {
+        return response.status(404).json({ success: false, error: 'List not found.' });
       }
-      return response.status(200).json(lists);
+
+      // if more than one item in list: sort items by name and then by category
+      if (queryResult.items.length > 1) {
+        queryResult.items.sort((a, b) => {
+          if (a.name < b.name) {
+            return -1;
+          }
+          if (a.name > b.name) {
+            return 1;
+          }
+          return 0;
+        });
+        queryResult.items.sort((a, b) => {
+          if (a.category && b.category) { 
+            if (a.category.name < b.category.name) {
+              return -1;
+            }
+            if (a.category.name > b.category.name) {
+              return 1;
+            }
+            return 0;
+          }
+          return -1;
+        });
+      }
+
+      return response.status(200).json({ 
+        success: true,
+        'list uri': `${uriBase}/lists/${listId}`,
+        'list': queryResult
+      });
     });
-    // .catch(error => console.log(error));
 };
 
+// Delete: HTTP DELETE /api/lists/{listId}
+deleteList = async (request, response) => {
 
-updateList = async (request, response) => {
-
-  const listId = request.body._id;
-
-  if (!listId) {
-      return response.status(400).json({
-          success: false,
-          error: "Please provide an list ID to update.",
-      })
+  const listId = request.params['listId'];
+  if (!uuidValidate(listId)) {
+    return response.status(422).json({ success: false, error: 'List ID is not valid.' })
   }
-
-  if (mongoose.Types.ObjectId.isValid(listId)) {
-
-    List.findOne({ _id: listId }, (error, list) => {
-      if (error || list === null) {
-        return response.status(404).json({
-          error,
-          message: "List not found.",
-        });
-      }
-      list.name = request.body.name;
-      list
-        .save()
-        .then(() => {
-          return response.status(200).json({
-            success: true,
-            id: list._id,
-            message: "List updated.",
-          })
-        })
-        .catch(error => {
-          return response.status(422).json({
-            error,
-            message: "List not updated. Please try again.",
-          });
-        });
-    });
-
-  } else {
-    return response.status(404).json({
-      success: false,
-      message: "List ID not valid.",
-    });
-  }
-}
-
-deleteLists = async (request, response) => {
-
-  if (request.body.field !== undefined && request.body.value !== undefined) {
-
-    const deletionFilter = {[request.body.field]: request.body.value};
-    console.log(deletionFilter);
-  
-    await List.deleteMany(deletionFilter, (error, result) => {
-      if (error) {
-          return response.status(400).json({ success: false, error: error, message: "Bad Request. No matches retrievable." });
-      }
-      if (result.ok === 1) {
-        return response
-          .status(200)
-          .json({ success: true, message: `Lists matching: ${result.n}. Lists deleted: ${result.deletedCount}.` });
-      }
-      return response.status(422).json({ success: false, error: "Could not process request"});
-    })
-    .catch(error => console.log(error));
-
-  } else {
-    return response.status(400).json({
-      success: false,
-      message: "Please specify a field and value to select the list to be deleted.",
-    });
-  }
+ 
+  await List.deleteOne({'UUID': listId}, (error, queryResult) => {
+    if (error) {
+        return response.status(500).json({ success: false, message: 'Error deleting list.', error: error });
+    }
+    if (queryResult.ok === 1) {
+      return response
+        .status(200)
+        .json({ 
+          success: true, 
+          message: `Lists matching: ${queryResult.n}. Lists deleted: ${queryResult.deletedCount}.` });
+    }
+    return response.status(500).json({ success: false, error: 'List deletion result not "ok"', queryResult});
+  });
 };
 
 module.exports = {
   createList,
-  getLists,
-  updateList,
-  deleteLists
+  readList,
+  deleteList
 };

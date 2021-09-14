@@ -1,0 +1,192 @@
+{
+	"info": {
+		"_postman_id": "d0c8c54d-179d-49d5-9130-88dca74e2018",
+		"name": "shoppingMate",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "list CREATE",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"My list\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3333/api/lists",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"lists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list READ",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept-encoding": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3333/api/lists/5d843363-a815-44ab-883c-04d843d9a523",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"lists",
+						"5d843363-a815-44ab-883c-04d843d9a523"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list DELETE",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3333/api/lists/08edb9ab-29ab-4655-8961-3a3717fd129c",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"lists",
+						"08edb9ab-29ab-4655-8961-3a3717fd129c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "item CREATE in list",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Item with catefory assigned\",\n    \"category\": \"6a43f03c-7868-4914-b781-99b127221c90\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3333/api/lists/6aea498e-df22-4b3f-9444-c00edeef78ff/items",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"lists",
+						"6aea498e-df22-4b3f-9444-c00edeef78ff",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "item UPDATE in list",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"status\": \"Done\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3333/api/lists/6aea498e-df22-4b3f-9444-c00edeef78ff/items/dc65ac3f-354e-4ec4-8d80-1294f81beb35",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"lists",
+						"6aea498e-df22-4b3f-9444-c00edeef78ff",
+						"items",
+						"dc65ac3f-354e-4ec4-8d80-1294f81beb35"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "items DELETE from list",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3333/api/lists/6aea498e-df22-4b3f-9444-c00edeef78ff/items",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"lists",
+						"6aea498e-df22-4b3f-9444-c00edeef78ff",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "categories READ",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3333/api/categories",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
