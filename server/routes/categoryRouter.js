@@ -3,9 +3,9 @@ const CategoryController = require('../controllers/categoryController');
 
 const categoryRouter = express.Router();
 
-categoryRouter.post('/category', CategoryController.createCategory);
-categoryRouter.get('/categories', CategoryController.getCategories);
-categoryRouter.patch('/category', CategoryController.updateCategory);
-categoryRouter.delete('/categories', CategoryController.deleteCategories);
+categoryRouter.post('/api/categories', CategoryController.createCategory);
+categoryRouter.get('/api/categories', CategoryController.readCategories);
+categoryRouter.patch('/api/categories/:categoryId', CategoryController.updateCategory);
+categoryRouter.delete('/api/categories/:categoryId', CategoryController.deleteCategory);
 
 module.exports = categoryRouter;

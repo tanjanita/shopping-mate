@@ -1,5 +1,5 @@
-const express = require("express");
-const cors = require("cors");
+const express = require('express');
+const cors = require('cors');
 
 // MongoDB connection via mongoose
 const db = require('./db')
@@ -11,13 +11,13 @@ const List = require('./models/listModel');
 // Server specs
 const app = express();
 const apiPort = 3333;
-app.use(cors({origin: "http://localhost:3000"})); // enable api access from another origin/port
+app.use(cors({origin: 'http://localhost:3000'})); // enable api access from another origin/port
 app.use(express.json()); // for parsing application/json
 
 // Server root route
-app.get("/", (request, response) => {
-  response.write("<h1>shoppingMate App</h1>");
-  response.write("<a href='/shoppingItems'>See a list of all shopping items</a>");
+app.get('/', (request, response) => {
+  response.write('<h1>shoppingMate App</h1>');
+  response.write('<a href="/shoppingItems">See a list of all shopping items</a>');
   response.send();
 });
 
@@ -28,6 +28,14 @@ const listRouter = require('./routes/listRouter');
 app.use(itemRouter);
 app.use(categoryRouter);
 app.use(listRouter);
+
+// Handle any wrong api address requests
+app.all('*', (request, response) => {
+  response.status(404).json({
+    success: false,
+    error: `Cannot find address ${request.originalUrl} on this server.`
+  });
+});
 
 // Start server
 app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`));
