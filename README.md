@@ -1,8 +1,9 @@
 # shoppingMate ![shopping bag icon](client/public/logo80.png)
 
-## <span style="color:BurlyWood"> _Yey, you're out shopping with your mate. Let's split up that shopping list!_  </span>
+### <span style="color:BurlyWood"> _Yey, you're out shopping with your mate. Let's split up that shopping list!_  </span>
 
-A clear and simple app which allows users to categorise shopping items into shopping aisles. Users can work on their shopping list together to add, check and delete shopping items. Eventually, individual user will be able to adopt item aisle categories in the list. This way, they can visually split up the list and be done faster :)  
+A clear and simple app which allows users to categorise shopping items into shopping aisles. Multiple users can simultaneously work on the same shopping list, where they can add, check and delete shopping items. 
+Eventually, users will be able to select shopping aisles to take care of. This way, they can split up the list and be done faster :) 
 
 <span style="color:SteelBlue;font-size:small"> _Icon by <a href="https://www.flaticon.com/authors/monkik" title="monkik">monkik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>_ </span>
 
@@ -22,10 +23,10 @@ A clear and simple app which allows users to categorise shopping items into shop
   - An outline of the API: routes, requests, responses and response codes
   - Postman export of API calls
 
-# Functionality
+# Functionality Outline
 
 ## 1) Fundamentials: Item management in one list, sorted by categories
-<span style="color:OliveDrab;font-size:small">***>>> current status <<<***</span>
+✅ _current status_
 
 ### Item Addition
 - Users can enter an item name. 
@@ -43,7 +44,7 @@ A clear and simple app which allows users to categorise shopping items into shop
 - The user can delete all items whick are checked using a separate button on the bottom.
 
 ## 2) Enhancement 1: Multiple lists 
-<span style="color:BurlyWood;font-size:small">***>>> currently in development <<<***</span>
+🔥 _currently in development_
 
 ### List Creation
 - Users can create new individual lists from the home screen
@@ -104,7 +105,7 @@ A clear and simple app which allows users to categorise shopping items into shop
   - Assign timeout (30 minutes or automatically once a day)
   - OR enable other users to take over / release a category
 
-## 6) Optional Enhancements
+## 🍬 Optional Enhancements
 
 - Display user names > store user nicknames
 - "Abandon Shop" button. Reset all checked items and adopted categories. 
