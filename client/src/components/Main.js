@@ -1,128 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import ItemAddition from './ItemAddition';
-import ItemListing from './ItemListing';
-import ItemDeletion from './ItemDeletion';
+import React from 'react';
+import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 
-function Items() {
+import ListCreation from './ListCreation';
+import List from './List';
 
-  const [itemInput, setItemInput] = useState('');
-  const [itemInputError, setItemInputError] = useState('');
-  const [categoryOptions, setCategoryOptions] = useState([]);
-  const [categorySelected, setCategorySelected] = useState('');
-  const [itemList, setItemList] = useState([]);
+function Main() {
 
-  useEffect(() => {
-    fetchListItemsGET();
-    fetchCategoryOptionsGET();
-  }, []);
-
-  function fetchListItemsGET() {
-    return fetch('http://localhost:3333/api/lists/ba65b81b-bf1b-4981-af45-ebd082bd9905')
-      .then(response => response.json())
-      .then(jsondata => setItemList(jsondata.list.items))
-  }
-
-  function fetchCategoryOptionsGET() {
-    return fetch('http://localhost:3333/api/categories')
-      .then(response => response.json())
-      .then(jsondata => { setCategoryOptions(jsondata['categories list']) })
-  }
-
-  function handleItemInputChange(event) {
-    setItemInput(event.target.value);
-    setItemInputError('');
-  }
-
-  function handleCategoryChange(event) {
-    setCategorySelected(event.target.value);
-  }
-
-  function handleItemAddition(event) {
+  function handleListCreation(event) {
     event.preventDefault();
-
-    // Item name must be given
-    if (event.target.name.value === '') {
-      setItemInputError('Please enter an item name:');
-    } else {
-
-      let newItem = { 'name': event.target.name.value };
-      if ( event.target.category.value !== '') {
-        newItem = {...newItem, 'category': event.target.category.value };
-      }
-      
-      // POST new item to DB, fetch new item-list from DB
-      fetch('http://localhost:3333/api/lists/ba65b81b-bf1b-4981-af45-ebd082bd9905/items', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify( newItem )
-      })
-      .then(() => {
-        // Update list of items
-        fetchListItemsGET();
-        // Delete values from form fields
-        setItemInput('');
-        setCategorySelected('');
-      });
-
-    }
-  }
-
-  function handleItemCheck(event) {
-
-    const updateObject = {
-      'status': (event.target.checked) ? 'Done' : 'Pending'
-    };
-
-    return fetch('http://localhost:3333/api/lists/ba65b81b-bf1b-4981-af45-ebd082bd9905/items/' + event.target.id, {
-      method: 'PATCH',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(updateObject)
-    })
-      .then(() => {
-        fetchListItemsGET();
-      });
-  }
-
-  function handleClickDeleteTicked() {
-
-    return fetch('http://localhost:3333/api/lists/ba65b81b-bf1b-4981-af45-ebd082bd9905/items', {
-      method: 'DELETE',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(() => {
-        fetchListItemsGET();
-      });
   }
 
   return (
     <main className='main'>
+      <BrowserRouter>
+        <Switch>
 
-      {/* <p className='listheader'>Let's split up that shopping list</p> */}
+          <Route path="/lists/:uuid">
+            <List />
+          </Route>
 
-        <ItemAddition 
-          onFormSubmit={handleItemAddition} 
-          itemInput={itemInput} 
-          itemInputError={itemInputError}
-          onItemInputChange={handleItemInputChange} 
-          categoryOptions={categoryOptions} 
-          categorySelected={categorySelected} 
-          onCategoryChange={handleCategoryChange} />
+          <Route path="/">
+            <ListCreation onFormSubmit={handleListCreation} />
+          </Route>
 
-        <ItemListing itemList={itemList} onItemCheck={handleItemCheck} />
+        </Switch>
+
+        <br />
+        <small><Link to="/">Create new list</Link> / <Link to="/lists/ba65b81b-bf1b-4981-af45-ebd082bd9905">Open existing list</Link></small>
+        <br />
         
-        <ItemDeletion onClickDeleteTicked={handleClickDeleteTicked} />
-
+        </BrowserRouter>
     </main>
   );
 }
 
-export default Items;
+export default Main;
