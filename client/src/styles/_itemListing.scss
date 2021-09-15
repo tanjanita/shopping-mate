@@ -45,6 +45,7 @@
 
   &__checkbox {
     margin: 2px 6px;
+    vertical-align: top;
 
     &:not(:checked)+label {
       text-decoration: none;

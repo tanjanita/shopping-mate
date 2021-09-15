@@ -86,7 +86,7 @@ updateCategory = async (request, response) => {
 // Delete: HTTP DELETE /api/categories/{categoryId} (available only for admin)
 deleteCategory = async (request, response) => {
 
-  // check for mandatory category ID
+  // check for valid category ID
   const categoryId = request.params['categoryId'];
   if (!uuidValidate(categoryId)) {
     return response.status(422).json({ success: false, error: 'Category ID is not valid.' })
@@ -103,7 +103,7 @@ deleteCategory = async (request, response) => {
     // Second, set matching list.items.category parameters to null
     List.updateMany(
       { 'items.category' : categoryObjectId._id },
-      { '$set': { 'items.$[i].category': null } },
+      { '$unset': { 'items.$[i].category': '' } }, // $unset will remove the field, regardless of value given
       { arrayFilters: [{'i.category': categoryObjectId._id}] },
       function(error, queryResult) {
         if (error) {

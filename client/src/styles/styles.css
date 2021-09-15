@@ -675,6 +675,7 @@ body {
 
 .item__checkbox {
   margin: 2px 6px;
+  vertical-align: top;
 }
 
 .item__checkbox:not(:checked) + label {
