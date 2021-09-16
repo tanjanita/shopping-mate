@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 
 import ListCreation from './ListCreation';
@@ -6,8 +6,48 @@ import List from './List';
 
 function Main() {
 
+  const [listInput, setListInput] = useState('');
+  const [listInputError, setListInputError] = useState('');
+  const [newListURI, setNewListURI] = useState('');
+  
+  // console.log('MAIN newListURI', newListURI);
+
+  function handleListInputChange(event) {
+    setListInput(event.target.value);
+    setListInputError('');
+  }
+
   function handleListCreation(event) {
     event.preventDefault();
+
+    // List name must be given
+    if (event.target.name.value === '') {
+      setListInputError('Please enter a list name:');
+    } else {
+
+      const newList = { 'name': event.target.name.value };
+      
+      // POST new list to DB, set up redirecting to new list
+      fetch('http://localhost:3333/api/lists/', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify( newList )
+      })
+      .then(response => response.json())
+      .then(jsondata => {
+        // Delete input from form field
+        setListInput('');
+        // Trigger a redirect to the address of the new list given in the server response!
+        setNewListURI(jsondata['list uri']);
+      });
+    }
+  }
+
+  function handleNewListRedirected() {
+    setNewListURI(' ');
   }
 
   return (
@@ -16,19 +56,23 @@ function Main() {
         <Switch>
 
           <Route path="/lists/:uuid">
-            <List />
+            <List 
+            onNewListRedirect={handleNewListRedirected}
+            newListURI={newListURI} />
+            <br />
+            <small><Link to="/">Create a new list</Link></small>
           </Route>
 
           <Route path="/">
-            <ListCreation onFormSubmit={handleListCreation} />
+            <ListCreation 
+              onFormSubmit={handleListCreation}
+              listInput={listInput} 
+              listInputError={listInputError} 
+              onListInputChange={handleListInputChange}
+              newListURI={newListURI} />
           </Route>
 
         </Switch>
-
-        <br />
-        <small><Link to="/">Create new list</Link> / <Link to="/lists/ba65b81b-bf1b-4981-af45-ebd082bd9905">Open existing list</Link></small>
-        <br />
-        
         </BrowserRouter>
     </main>
   );

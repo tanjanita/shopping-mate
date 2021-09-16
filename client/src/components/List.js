@@ -1,25 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 
 import ItemAddition from './ItemAddition';
 import ItemListing from './ItemListing';
 import ItemDeletion from './ItemDeletion';
 
-function List() {
-
+function List(props) {
+  
+  // Add new item text input
   const [itemInput, setItemInput] = useState('');
   const [itemInputError, setItemInputError] = useState('');
+  // Aisle category dropdown
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [categorySelected, setCategorySelected] = useState('');
+  // List of items in the shopping list
   const [itemList, setItemList] = useState([]);
-
+  
   const { uuid } = useParams();
-
+  
+  // Monitor location to update list in case it changes
+  const location = useLocation();
   useEffect(() => {
     fetchListItemsGET();
     fetchCategoryOptionsGET();
+    
+    // set newListURI state to '';
+    if (props.newListURI.length > 7) {
+      // console.log('LIST has newListURI');
+      // console.log("LIST triggers MAIN reset of newListURI");
+      props.onNewListRedirect();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [location]);
 
   function fetchListItemsGET() {
 
@@ -110,7 +122,7 @@ function List() {
   }
 
   return (
-    <div> 
+    <div>
       <ItemAddition 
         onFormSubmit={handleItemAddition} 
         itemInput={itemInput} 
