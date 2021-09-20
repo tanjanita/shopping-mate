@@ -20,6 +20,12 @@ body {
   }
 }
 
+.flex-row-space-between {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
 .screen-reader-only {
   position: absolute !important;
   height: 1px;
@@ -29,8 +35,6 @@ body {
   clip: rect(1px, 1px, 1px, 1px);
 }
 
-.flex-row-space-between {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
+.toggle-visibility {
+  display: none;
 }

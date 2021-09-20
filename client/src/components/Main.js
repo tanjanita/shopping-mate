@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import ListCreation from './ListCreation';
 import List from './List';
@@ -59,8 +59,6 @@ function Main() {
             <List 
             onNewListRedirect={handleNewListRedirected}
             newListURI={newListURI} />
-            <br />
-            <small><Link to="/">Create a new list</Link></small>
           </Route>
 
           <Route path="/">

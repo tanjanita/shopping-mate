@@ -491,15 +491,6 @@ body {
   }
 }
 
-.screen-reader-only {
-  position: absolute !important;
-  height: 1px;
-  width: 1px;
-  overflow: hidden;
-  clip: rect(1px 1px 1px 1px);
-  clip: rect(1px, 1px, 1px, 1px);
-}
-
 .flex-row-space-between {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -511,6 +502,19 @@ body {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+}
+
+.screen-reader-only {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+.toggle-visibility {
+  display: none;
 }
 
 /*------------------ App ------------------*/
@@ -572,6 +576,46 @@ body {
   .main {
     width: 300px;
   }
+}
+
+.main__title {
+  color: #122352;
+  font-size: 1.3rem;
+  margin: 0 0 4px 0;
+}
+
+.infobox {
+  margin: 26px 0 0;
+  padding: 8px;
+  border: 1px solid #148d7b;
+  font-size: .85rem;
+  color: #122352;
+}
+
+.infobox__headline {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.infobox__button {
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0;
+  cursor: pointer;
+}
+
+.infobox__content {
+  margin: 6px 0 2px;
+}
+
+.infobox__text {
+  color: #99ffe6;
+  margin-bottom: 4px;
+}
+
+.infobox__link {
+  text-decoration: underline;
+  overflow-wrap: break-word;
 }
 
 /*------------------ ItemAddition ------------------*/
@@ -643,7 +687,7 @@ body {
 
 @media only screen and (min-width: 350px) {
   .category__headline {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 }
 

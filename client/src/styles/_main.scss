@@ -10,4 +10,44 @@
   @include screen(ls-small) {
     width: 300px;
   }
+
+  &__title {
+    color: $colour-blue-dark;
+    font-size: 1.3rem;
+    margin: 0 0 4px 0;
+  }
+}
+
+.infobox {
+  margin: 26px 0 0;
+  padding: 8px;
+  border: 1px solid $colour-green-medium;
+  font-size: .85rem;
+  color: $colour-blue-dark;
+
+  &__headline {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  &__button {
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  &__content {
+    margin: 6px 0 2px;
+  }
+
+  &__text {
+    color: $colour-green-light;
+    margin-bottom: 4px;
+  }
+
+  &__link {
+    text-decoration: underline;
+    overflow-wrap: break-word;
+  }
 }

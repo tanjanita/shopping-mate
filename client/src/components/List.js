@@ -13,8 +13,11 @@ function List(props) {
   // Aisle category dropdown
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [categorySelected, setCategorySelected] = useState('');
-  // List of items in the shopping list
+  // The shopping list
+  const [listName, setListName] = useState([]);
   const [itemList, setItemList] = useState([]);
+  // Infobox at bottom
+  const [infoboxVisibility, setInfoboxVisibility] = useState(true);
   
   const { uuid } = useParams();
   
@@ -37,7 +40,10 @@ function List(props) {
 
     return fetch('http://localhost:3333/api/lists/' + uuid)
       .then(response => response.json())
-      .then(jsondata => setItemList(jsondata.list.items))
+      .then(jsondata => {
+        setListName(jsondata.list.name);
+        setItemList(jsondata.list.items);
+      })
   }
 
   function fetchCategoryOptionsGET() {
@@ -121,8 +127,14 @@ function List(props) {
       });
   }
 
+  function toggleInfobox() {
+    setInfoboxVisibility(!infoboxVisibility);
+  }
+
   return (
     <div>
+      <h2 className='main__title'>{listName}</h2>
+      
       <ItemAddition 
         onFormSubmit={handleItemAddition} 
         itemInput={itemInput} 
@@ -131,9 +143,28 @@ function List(props) {
         categoryOptions={categoryOptions} 
         categorySelected={categorySelected} 
         onCategoryChange={handleCategoryChange} />
-      <br />
       <ItemListing itemList={itemList} onItemCheck={handleItemCheck} />
       <ItemDeletion onClickDeleteTicked={handleClickDeleteTicked} />
+
+      <div className='infobox'>
+      <div className='flex-row-space-between'>
+        <p className='infobox__headline'>★ Bookmark this list ★</p>
+        <p className='infobox__button' id='infobox-button' onClick={toggleInfobox}>
+        {infoboxVisibility ? '⌃' : '⌄'}
+        </p>
+      </div>
+
+{infoboxVisibility &&
+        <div className="infobox__content" id='infobox-toggle'>
+
+          <p className='infobox__text'>In order to <b>access this shopping list again later</b>, you will <b>need the link</b> to this page.</p>   
+          <p className='infobox__text'>You can then use the link when you're out shopping or to share the list with your shopping-mate :&#41;</p>
+          <p className='infobox__text'>Please <b>bookmark or copy the link address</b> for this page:</p>
+          <a href={location.pathname} className='infobox__link'>www.tanjanita.com/shoppingMate{location.pathname}</a>
+        </div>
+}
+      </div>
+
     </div>
   );
 }
