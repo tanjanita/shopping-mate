@@ -3,8 +3,6 @@ const Category = require('../models/categoryModel');
 const List = require('../models/listModel');
 const { v4: uuidv4, validate: uuidValidate } = require('uuid');
 
-const uriBase = 'localhost:33333/api';
-
 // Create: HTTP POST /api/categories (available only for admin)
 createCategory = async (request, response) => {
 
@@ -21,7 +19,7 @@ createCategory = async (request, response) => {
       return response.status(201).json({
         success: true,
         message: `Category '${request.body.name}' was created.`, 
-        'categories list uri': `${uriBase}/categories`
+        'categories list uri': `/categories`
       })
     })
     .catch(saveError => {
@@ -47,7 +45,7 @@ readCategories = async (request, response) => {
       }
       return response.status(200).json({ 
         success: true,
-        'categories list uri': `${uriBase}/categories`,
+        'categories list uri': `/categories`,
         'categories list': queryResult
       });
     })
@@ -77,7 +75,7 @@ updateCategory = async (request, response) => {
       return response.status(200).json({
             success: true,
             message: 'Category name updated.',
-            'category list uri': `${uriBase}/categories`
+            'category list uri': `/categories`
       });
     }
   );
@@ -86,7 +84,7 @@ updateCategory = async (request, response) => {
 // Delete: HTTP DELETE /api/categories/{categoryId} (available only for admin)
 deleteCategory = async (request, response) => {
 
-  // check for mandatory category ID
+  // check for valid category ID
   const categoryId = request.params['categoryId'];
   if (!uuidValidate(categoryId)) {
     return response.status(422).json({ success: false, error: 'Category ID is not valid.' })
@@ -103,7 +101,7 @@ deleteCategory = async (request, response) => {
     // Second, set matching list.items.category parameters to null
     List.updateMany(
       { 'items.category' : categoryObjectId._id },
-      { '$set': { 'items.$[i].category': null } },
+      { '$unset': { 'items.$[i].category': '' } }, // $unset will remove the field, regardless of value given
       { arrayFilters: [{'i.category': categoryObjectId._id}] },
       function(error, queryResult) {
         if (error) {
@@ -126,7 +124,7 @@ deleteCategory = async (request, response) => {
         .json({ 
           success: true, 
           message: `Categories matching: ${queryResult.n}. Categories deleted: ${queryResult.deletedCount}.`, 
-          'category list uri': `${uriBase}/categories` 
+          'category list uri': `/categories` 
         });
       }
       return response.status(400).json({ success: false, message: 'Category deletion result not "ok"', queryResult});

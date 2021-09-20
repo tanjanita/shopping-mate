@@ -4,8 +4,6 @@ const Item = require('../models/itemModel').Item;
 const Category = require('../models/categoryModel');
 const { v4: uuidv4, validate: uuidValidate } = require('uuid');
 
-const uriBase = 'localhost:33333/api';
-
 // Create: HTTP POST /api/lists/{listId}/items
 createItem = async (request, response) => {
 
@@ -58,7 +56,7 @@ createItem = async (request, response) => {
         return response.status(201).json({
           success: true,
           message: 'Item added to list.',
-          'list uri': `${uriBase}/lists/${listId}`
+          'list uri': `/lists/${listId}`
         })
       })
       .catch(error => {
@@ -92,7 +90,7 @@ updateItem = async (request, response) => {
       return response.status(200).json({
             success: true,
             message: 'Item status updated.',
-            'list uri': `${uriBase}/lists/${listId}`
+            'list uri': `/lists/${listId}`
       });
     }
   );
@@ -120,7 +118,7 @@ deleteItems = async (request, response) => {
       return response.status(200).json({
         success: true,
         message: "All items with status 'Done' were deleted from this list.",
-        'list uri': `${uriBase}/lists/${listId}`
+        'list uri': `/lists/${listId}`
       })
     }
   );

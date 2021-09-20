@@ -1,137 +1,79 @@
-import React, { useState, useEffect } from 'react';
-import ItemAddition from './ItemAddition';
-import ItemListing from './ItemListing';
-import ItemDeletion from './ItemDeletion';
+import React, { useState } from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-function Items() {
+import ListCreation from './ListCreation';
+import List from './List';
 
-  const [itemInput, setItemInput] = useState('');
-  const [itemInputError, setItemInputError] = useState('');
-  const [categoryOptions, setCategoryOptions] = useState([]);
-  const [categorySelected, setCategorySelected] = useState('');
-  const [itemList, setItemList] = useState([]);
+function Main() {
 
-  useEffect(() => {
-    fetchListItemsGET();
-    fetchCategoryOptionsGET();
-  }, []);
+  const [listInput, setListInput] = useState('');
+  const [listInputError, setListInputError] = useState('');
+  const [newListURI, setNewListURI] = useState('');
+  
+  // console.log('MAIN newListURI', newListURI);
 
-  function fetchListItemsGET() {
-    return fetch('http://localhost:3333/shoppingItems')
-      .then(response => response.json())
-      .then(jsondata => setItemList(jsondata))
+  function handleListInputChange(event) {
+    setListInput(event.target.value);
+    setListInputError('');
   }
 
-  function fetchCategoryOptionsGET() {
-    return fetch('http://localhost:3333/categories')
-      .then(response => response.json())
-      .then(jsondata => setCategoryOptions(jsondata))
-  }
-
-  function handleItemInputChange(event) {
-    setItemInput(event.target.value);
-    setItemInputError("");
-  }
-
-  function handleCategoryChange(event) {
-    setCategorySelected(event.target.value);
-  }
-
-  function handleItemAddition(event) {
-
+  function handleListCreation(event) {
     event.preventDefault();
 
-    // Item name must be given
-    if (event.target.name.value === "") {
-      setItemInputError("Please enter an item name:");
+    // List name must be given
+    if (event.target.name.value === '') {
+      setListInputError('Please enter a list name:');
     } else {
 
-      let newItem = { 'name': event.target.name.value };
-      if ( event.target.category.value !== "") {
-        newItem = {...newItem, 'category': event.target.category.value };
-      }
+      const newList = { 'name': event.target.name.value };
       
-      // POST new item to DB, fetch new item-list from DB
-      fetch('http://localhost:3333/shoppingItem', {
+      // POST new list to DB, set up redirecting to new list
+      fetch('http://localhost:3333/api/lists/', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify( newItem )
+        body: JSON.stringify( newList )
       })
-      .then(() => {
-        // Update list of items
-        fetchListItemsGET();
-        // Delete values from form fields
-        setItemInput("");
-        setCategorySelected("");
+      .then(response => response.json())
+      .then(jsondata => {
+        // Delete input from form field
+        setListInput('');
+        // Trigger a redirect to the address of the new list given in the server response!
+        setNewListURI(jsondata['list uri']);
       });
-
     }
   }
 
-  function handleItemCheck(event) {
-
-    const updateObject = {
-      '_id': event.target.id, 
-      'field': 'status', 
-      'value': (event.target.checked) ? "Done" : "Pending"
-    };
-
-    return fetch('http://localhost:3333/shoppingItem', {
-      method: 'PATCH',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(updateObject)
-    })
-      .then(() => {
-        fetchListItemsGET();
-      });
-  }
-
-  function handleClickDeleteTicked() {
-    
-    const deletionFilter = {
-      'field': 'status', 
-      'value': "Done"
-    };
-
-    return fetch('http://localhost:3333/shoppingItems', {
-      method: 'DELETE',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(deletionFilter)
-    })
-      .then(() => {
-        fetchListItemsGET();
-      });
+  function handleNewListRedirected() {
+    setNewListURI(' ');
   }
 
   return (
-    <main className="main">
+    <main className='main'>
+      <BrowserRouter>
+        <Switch>
 
-      {/* <p className="listheader">Let's split up that shopping list</p> */}
+          <Route path="/lists/:uuid">
+            <List 
+            onNewListRedirect={handleNewListRedirected}
+            newListURI={newListURI} />
+          </Route>
 
-        <ItemAddition 
-          onFormSubmit={handleItemAddition} 
-          itemInput={itemInput} 
-          itemInputError={itemInputError}
-          onItemInputChange={handleItemInputChange} 
-          categoryOptions={categoryOptions} 
-          categorySelected={categorySelected} 
-          onCategoryChange={handleCategoryChange} />
+          <Route path="/">
+            <ListCreation 
+              onFormSubmit={handleListCreation}
+              listInput={listInput} 
+              listInputError={listInputError} 
+              onListInputChange={handleListInputChange}
+              newListURI={newListURI} />
+          </Route>
 
-        <ItemListing itemList={itemList} onItemCheck={handleItemCheck} />
-        
-        <ItemDeletion onClickDeleteTicked={handleClickDeleteTicked} />
-
+        </Switch>
+        </BrowserRouter>
     </main>
   );
 }
 
-export default Items;
+export default Main;

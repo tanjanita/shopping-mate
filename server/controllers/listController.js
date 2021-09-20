@@ -2,8 +2,6 @@ const mongoose = require('mongoose');
 const List = require('../models/listModel');
 const { v4: uuidv4, validate: uuidValidate } = require('uuid');
 
-const uriBase = 'localhost:33333/api';
-
 // Create: HTTP POST /api/lists
 createList = async (request, response) => {
 
@@ -20,7 +18,7 @@ createList = async (request, response) => {
       return response.status(201).json({ 
         success: true, 
         message: `List '${request.body.name}' was created.`, 
-        'list uri': `${uriBase}/lists/${newUUID}`
+        'list uri': `/lists/${newUUID}`
       })
     })
     .catch(saveError => {
@@ -79,7 +77,7 @@ readList = async (request, response) => {
 
       return response.status(200).json({ 
         success: true,
-        'list uri': `${uriBase}/lists/${listId}`,
+        'list uri': `/lists/${listId}`,
         'list': queryResult
       });
     });
