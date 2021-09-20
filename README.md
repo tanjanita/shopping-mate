@@ -1,4 +1,4 @@
-# shoppingMate ![shopping bag icon](client/public/logo80.png)
+# shoppingMate ![shopping bag icon](client/public/images/Logo80.png)
 
 ### <span style="color:BurlyWood"> _Yey, you're out shopping with your mate. Let's split up that shopping list!_  </span>
 
@@ -25,8 +25,7 @@ Eventually, users will be able to select shopping aisles to take care of. This w
 
 # Functionality Outline
 
-## 1) Fundamentials: Item management in one list, sorted by categories
-✅ _current status_
+## Fundamentials: Item management in one list, sorted by categories
 
 ### Item Addition
 - Users can enter an item name. 
@@ -43,17 +42,18 @@ Eventually, users will be able to select shopping aisles to take care of. This w
 ### Item Deletion
 - The user can delete all items whick are checked using a separate button on the bottom.
 
-## 2) Enhancement 1: Multiple lists 
-🔥 _currently in development_
+## Enhancement 1: Multiple lists 
+✔️ _current status_
 
 ### List Creation
 - Users can create new individual lists from the home screen
   - Add create new list button
     - A list ID is to be created using UUID and added to the URL
-    - User needs to be informed how to access the list: bookmark/share URL with list ID
-    - MongoDB: The items are included in an array within a list ID document
+    - MongoDB: Items are nested in an array within a list document
+    - User needs to be informed how to access the list: bookmark/copy page link with list ID
 
-## 3) Enhancement 2: Online Setup and Management
+## Enhancement 2: Online Setup and Management
+🔥 _currently in development_
 
 ### Online Setup
 - Need to bring the app online
@@ -66,7 +66,7 @@ Eventually, users will be able to select shopping aisles to take care of. This w
     - "To keep things fresh for you, we clear old lists from our data shelves after 90 days (since creation / last edit)"
 - Consider security issues
 
-## 4) Enhancement 3: Multiple/Separate Users
+## Enhancement 3: Multiple/Separate Users
 
 ### User Addition
 - Users need to be identifiable
@@ -94,7 +94,7 @@ Eventually, users will be able to select shopping aisles to take care of. This w
 - Users can delete items they have checked
   - The deletion process has to include list and user IDs
 
-## 5) Enhancement 4: List Splitting / Category Ownership
+## Enhancement 4: List Splitting / Category Ownership
 
 ### List Splitting
 - Users can "adopt" categories to take care of them
