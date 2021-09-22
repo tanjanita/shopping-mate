@@ -25,6 +25,13 @@ Eventually, users will be able to select shopping aisles to take care of. This w
 
 # Functionality Outline
 
+- Fundamentials: Item management in one list, sorted by categories ✔️
+- Enhancement 1: Multiple lists ✔️ _current status_
+- Online Setup and Management 🔥 _currently in development_
+- Enhancement 2: Multiple/Separate Users
+- Enhancement 3: List Splitting / Category Ownership
+- Optional Enhancements
+
 ## Fundamentials: Item management in one list, sorted by categories
 
 ### Item Addition
@@ -52,7 +59,7 @@ Eventually, users will be able to select shopping aisles to take care of. This w
     - MongoDB: Items are nested in an array within a list document
     - User needs to be informed how to access the list: bookmark/copy page link with list ID
 
-## Enhancement 2: Online Setup and Management
+## Online Setup and Management
 🔥 _currently in development_
 
 ### Online Setup
@@ -66,7 +73,7 @@ Eventually, users will be able to select shopping aisles to take care of. This w
     - "To keep things fresh for you, we clear old lists from our data shelves after 90 days (since creation / last edit)"
 - Consider security issues
 
-## Enhancement 3: Multiple/Separate Users
+## Enhancement 2: Multiple/Separate Users
 
 ### User Addition
 - Users need to be identifiable
@@ -94,7 +101,7 @@ Eventually, users will be able to select shopping aisles to take care of. This w
 - Users can delete items they have checked
   - The deletion process has to include list and user IDs
 
-## Enhancement 4: List Splitting / Category Ownership
+## Enhancement 3: List Splitting / Category Ownership
 
 ### List Splitting
 - Users can "adopt" categories to take care of them
