@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
@@ -10,7 +11,7 @@ const List = require('./models/listModel');
 
 // Server specs
 const app = express();
-const apiPort = 3333;
+const apiPort = process.env.PORT;
 app.use(cors({origin: 'http://localhost:3000'})); // enable api access from another origin/port
 app.use(express.json()); // for parsing application/json
 
