@@ -5,8 +5,6 @@ import ItemAddition from './ItemAddition';
 import ItemListing from './ItemListing';
 import ItemDeletion from './ItemDeletion';
 
-require('dotenv').config();
-
 function List(props) {
   
   // Add new item text input
@@ -42,7 +40,7 @@ function List(props) {
 
   function fetchListItemsGET() {
 
-    return fetch(process.env.APIPATH + '/api/lists/' + uuid)
+    return fetch(process.env.REACT_APP_APIPATH + '/api/lists/' + uuid)
       .then(response => response.json())
       .then(jsondata => {
         setListName(jsondata.list.name);
@@ -51,7 +49,7 @@ function List(props) {
   }
 
   function fetchCategoryOptionsGET() {
-    return fetch(process.env.APIPATH + '/api/categories')
+    return fetch(process.env.REACT_APP_APIPATH + '/api/categories')
       .then(response => response.json())
       .then(jsondata => { setCategoryOptions(jsondata['categories list']) })
   }
@@ -79,7 +77,7 @@ function List(props) {
       }
       
       // POST new item to DB, fetch new item-list from DB
-      fetch(process.env.APIPATH + '/api/lists/' + uuid + '/items', {
+      fetch(process.env.REACT_APP_APIPATH + '/api/lists/' + uuid + '/items', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -104,7 +102,7 @@ function List(props) {
       'status': (event.target.checked) ? 'Done' : 'Pending'
     };
 
-    return fetch(process.env.APIPATH + '/api/lists/' + uuid + '/items/' + event.target.id, {
+    return fetch(process.env.REACT_APP_APIPATH + '/api/lists/' + uuid + '/items/' + event.target.id, {
       method: 'PATCH',
       headers: {
         'Accept': 'application/json',
@@ -119,7 +117,7 @@ function List(props) {
 
   function handleClickDeleteTicked() {
 
-    return fetch(process.env.APIPATH + '/api/lists/' + uuid + '/items', {
+    return fetch(process.env.REACT_APP_APIPATH + '/api/lists/' + uuid + '/items', {
       method: 'DELETE',
       headers: {
         'Accept': 'application/json',

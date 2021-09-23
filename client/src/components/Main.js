@@ -28,7 +28,7 @@ function Main() {
       const newList = { 'name': event.target.name.value };
       
       // POST new list to DB, set up redirecting to new list
-      fetch(process.env.APIPATH + '/api/lists/', {
+      fetch(process.env.REACT_APP_APIPATH + '/api/lists/', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
