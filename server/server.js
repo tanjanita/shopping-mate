@@ -17,8 +17,8 @@ app.use(express.json()); // for parsing application/json
 
 // Server root route
 app.get('/', (request, response) => {
-  response.write('<h1>shoppingMate App</h1>');
-  response.write('<a href="/shoppingItems">See a list of all shopping items</a>');
+  response.write('<h1>shoppingMate API</h1>');
+  response.write('<a href="https://tanjanita-shopping-mate.herokuapp.com/">Go to https://tanjanita-shopping-mate.herokuapp.com/ to use the app :)</a>');
   response.send();
 });
 
