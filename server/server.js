@@ -12,7 +12,7 @@ const List = require('./models/listModel');
 // Server specs
 const app = express();
 const apiPort = process.env.PORT;
-app.use(cors({origin: 'http://localhost:3000'})); // enable api access from another origin/port
+app.use(cors({origin: process.env.CORS_PATH})); // enable api access from another origin/port
 app.use(express.json()); // for parsing application/json
 
 // Server root route
