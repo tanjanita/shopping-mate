@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
@@ -10,14 +11,14 @@ const List = require('./models/listModel');
 
 // Server specs
 const app = express();
-const apiPort = 3333;
-app.use(cors({origin: 'http://localhost:3000'})); // enable api access from another origin/port
+const apiPort = process.env.PORT;
+app.use(cors({origin: process.env.CORS_PATH})); // enable api access from another origin/port
 app.use(express.json()); // for parsing application/json
 
 // Server root route
 app.get('/', (request, response) => {
-  response.write('<h1>shoppingMate App</h1>');
-  response.write('<a href="/shoppingItems">See a list of all shopping items</a>');
+  response.write('<h1>shoppingMate API</h1>');
+  response.write('<a href="https://tanjanita-shopping-mate.herokuapp.com/">Go to https://tanjanita-shopping-mate.herokuapp.com/ to use the app :)</a>');
   response.send();
 });
 
