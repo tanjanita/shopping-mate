@@ -2,17 +2,12 @@
 .itemCategory {
 
   &__select {
+    margin-right: 4px;
     padding: 3px 4px;
+    width: 100%;
+    border: 1px solid $colour-green-dark;
+    border-radius: 6px;
     background-color: $colour-brown-light;
-    color: $colour-brown-dark;
-    border: none;
-    font-size: $text-sm;
-    width: 194px;
-
-    @include screen(ls-small) {
-      font-size: $text-body;
-      width: 210px;
-    }
+    color: $colour-brown-medium;
   }
-
 }

@@ -1,8 +1,9 @@
 /*------------------ Footer ------------------*/
 .footer {
+  background-color: $colour-blue;
   color: $colour-green-medium;
   font-size: .8rem;
-  padding: 1rem 0 0;
+  padding: 1rem 0;
 }
 
 .credits__link {
@@ -11,7 +12,6 @@
   :visited,
   :active {
     color: $colour-green-medium;
-    // text-decoration: underline;
   }
 
   &:hover {

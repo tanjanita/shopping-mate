@@ -1,25 +1,27 @@
 /*------------------ Variables ------------------*/
-$colour-base-light: #fff8f1;
+// Colour palette update
+// dark #227C9D; tealx #17C3b2; yellowx #ffcb77; cream #fef9ef; redx #fe6d73;
 
-$colour-brown-dark: #3f3934;
-$colour-brown-medium: #58534f;
+// $colour-base-light: #fff8f1;
+$colour-base-light: #fef9ef;
+$colour-yellow-light: #fcead5;
+
+$colour-highlight-medium: #ffcb77;
+$colour-highlight-strong: #fa5d62;
+
+$colour-blue-dark: #003457;
+$colour-blue: #053e80;
+
+$colour-teal-dark: #004e81;
+$colour-teal: #227C9D;
+$colour-teal-light: #52b2d4;
+
+$colour-green-darkest:#12535c;
+$colour-green-dark: #158075;
+$colour-green-medium: #129e90;
+$colour-green: #17C3b2;
+$colour-green-light: #78e0d6;
+
+$colour-brown-medium: #665d51;
 $colour-brown-light: #cabfb2;
-$colour-brown-pale: #ece4da;
-
-$colour-blue-dark: #122352;
-$colour-blue: #233e8b;
-$colour-blue-light: #4092C9;
-$colour-blue-pale: #a5d7eb;
-
-$colour-green-dark: #177a6a;
-$colour-green-medium: #148d7b;
-$colour-green: #1eae98;
-$colour-green-light: #99ffe6;
-
-$colour-orange: #FF7230;
-$colour-orange-light: #E6994E;
-
-$colour-yellow-light: #f7f7c7;
-
-$colour-red: #E3584B;
-$colour-red-dark: #533532;
+$colour-brown-pale: #e2d9cf;

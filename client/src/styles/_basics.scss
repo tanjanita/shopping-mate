@@ -1,22 +1,24 @@
 /*------------------ Basics ------------------*/
 body {
   background: $colour-blue;
+  color: $colour-base-light;
   text-align: center;
 }
 
 .button {
-  display: inline-block;
-  padding: 4px 10px;
-  border: none;
-  background-color: $colour-blue;
-  color: $colour-green-light;
+  padding: 8px 24px;
+  border: 1px solid $colour-green-dark;
+  border-radius: 6px;
+  background-color: $colour-highlight-medium;
+  color: $colour-teal-dark;
   text-align: center;
   text-decoration: none;
-  font-size: $text-sm;
+  font-weight: 700;
   cursor: pointer;
 
-  @include screen(ls-small) {
-    font-size: $text-body;
+  &__createList {
+    width: 100%;
+    margin-bottom: 1rem;
   }
 }
 

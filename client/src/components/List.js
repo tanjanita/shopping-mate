@@ -148,23 +148,23 @@ function List(props) {
       <ItemListing itemList={itemList} onItemCheck={handleItemCheck} />
       <ItemDeletion onClickDeleteTicked={handleClickDeleteTicked} />
 
+{/* classes for this are specified in _main.scss */}
       <div className='infobox'>
-      <div className='flex-row-space-between'>
+      <div className='infobox__toggle flex-row-space-between' onClick={toggleInfobox}>
         <p className='infobox__headline'>★ Bookmark this list ★</p>
-        <p className='infobox__button' id='infobox-button' onClick={toggleInfobox}>
+        <p className='infobox__button'>
         {infoboxVisibility ? '⌃' : '⌄'}
         </p>
       </div>
+        {infoboxVisibility &&
+          <div className="infobox__content" id='infobox-toggle'>
+            <p className='infobox__text'>In order to <b>access this shopping list again later</b>, you <b>need the link</b> to this page.</p>   
+            <p className='infobox__text'>You can use it when you're out shopping or to share the list with your shopping-mate :&#41;</p>
+            <p className='infobox__text'>Please <b>bookmark or copy the link address (right-click)</b> for this page:</p>
+            <a href={location.pathname} className='infobox__link'>https://tanjanita-shopping-mate.herokuapp.com{location.pathname}</a>
+          </div>
+        }
 
-{infoboxVisibility &&
-        <div className="infobox__content" id='infobox-toggle'>
-
-          <p className='infobox__text'>In order to <b>access this shopping list again later</b>, you will <b>need the link</b> to this page.</p>   
-          <p className='infobox__text'>You can then use the link when you're out shopping or to share the list with your shopping-mate :&#41;</p>
-          <p className='infobox__text'>Please <b>bookmark or copy the link address</b> for this page:</p>
-          <a href={location.pathname} className='infobox__link'>www.tanjanita.com/shoppingMate{location.pathname}</a>
-        </div>
-}
       </div>
 
     </div>

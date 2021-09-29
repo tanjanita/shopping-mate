@@ -18,7 +18,7 @@ function ItemListing(props) {
   return (
     <div className='itemList'>
 
-    <h2 className='screen-reader-only'>Shopping list</h2>
+    <h2 className='screen-reader-only'>List of shopping items</h2>
 
       {categoryList.map((element) => 
 
@@ -28,7 +28,7 @@ function ItemListing(props) {
 
           {element.items.map((item) => 
 
-            <li className='item__element' key={item.UUID}>
+            <li className='item__element flex-row-space-between' key={item.UUID}>
               <input className='item__checkbox' type='checkbox' id={item.UUID} name={item.name} onChange={(event) => {props.onItemCheck(event)}} defaultChecked={item.status === 'Done' && 'checked'} />
               <label className='item__label' htmlFor={item.UUID}> {item.name} </label>
             </li>
