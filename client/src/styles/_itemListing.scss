@@ -4,6 +4,13 @@
   padding: 1px 10px 10px;
   border-radius: 3px;
   background-color: $colour-base-light;
+  color: $colour-teal;
+
+  &__empty {
+    margin: 16px;
+    line-height: 1.5em;
+    font-style: italic;
+  }
 }
 
 .category__headline {

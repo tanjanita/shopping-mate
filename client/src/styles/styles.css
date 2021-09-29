@@ -643,8 +643,8 @@ body {
 }
 
 .addItem__message {
-  padding: 2px 4px 4px 0;
-  color: #053e80;
+  padding: 2px 4px 4px 2px;
+  color: #fef9ef;
   font-weight: bold;
 }
 
@@ -684,6 +684,13 @@ body {
   padding: 1px 10px 10px;
   border-radius: 3px;
   background-color: #fef9ef;
+  color: #227C9D;
+}
+
+.itemList__empty {
+  margin: 16px;
+  line-height: 1.5em;
+  font-style: italic;
 }
 
 .category__headline {

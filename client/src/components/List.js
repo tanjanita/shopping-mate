@@ -18,8 +18,6 @@ function List(props) {
   const [itemList, setItemList] = useState([]);
   // Infobox at bottom
   const [infoboxVisibility, setInfoboxVisibility] = useState(true);
-
-  
   
   const { uuid } = useParams();
   
@@ -145,10 +143,12 @@ function List(props) {
         categoryOptions={categoryOptions} 
         categorySelected={categorySelected} 
         onCategoryChange={handleCategoryChange} />
+
       <ItemListing itemList={itemList} onItemCheck={handleItemCheck} />
+      
       <ItemDeletion onClickDeleteTicked={handleClickDeleteTicked} />
 
-{/* classes for this are specified in _main.scss */}
+      {/* classes for the bookmark infobox are specified in _main.scss */}
       <div className='infobox'>
       <div className='infobox__toggle flex-row-space-between' onClick={toggleInfobox}>
         <p className='infobox__headline'>★ Bookmark this list ★</p>

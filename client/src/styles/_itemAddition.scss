@@ -6,8 +6,8 @@
   }
 
   &__message {
-    padding: 2px 4px 4px 0;
-    color: $colour-blue;
+    padding: 2px 4px 4px 2px;
+    color: $colour-base-light;
     font-weight: bold;
 
     @include screen(ls-small) {
