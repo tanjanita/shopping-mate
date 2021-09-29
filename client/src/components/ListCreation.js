@@ -23,7 +23,7 @@ function ListCreation(props) {
         onChange={props.onListInputChange} 
         autoComplete="off"
         />
-      <button className="button" type="submit">OK, create my list!</button>
+      <button className="button button__createList" type="submit">OK, create my list!</button>
       <br />
     </form>
   );

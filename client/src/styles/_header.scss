@@ -1,17 +1,19 @@
 /*------------------ Header ------------------*/
 .header {
+  background: $colour-blue;
 
   &__headline {
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    margin-top: 20px;
+    margin-top: 0;
+    padding-top: 20px;
   }
 
   &__logo {
     margin: 0 0 .2rem .3rem;
-    width: 3rem;
-    height: 3rem;
+    width: 3.7rem;
+    height: 3.7rem;
 
     @include screen(p-medium) {
       width: 4rem;
@@ -20,12 +22,11 @@
   }
 
   &__subtitle {
-    margin-bottom: 1.6em;
+    padding-bottom: 20px;
     font-size: $text-sm;
-    color: $colour-green-light;
+    color: $colour-green;
 
     @include screen(p-medium) {
-      margin-bottom: 2.4em;
       font-size: $text-body;
     }
   }

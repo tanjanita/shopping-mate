@@ -3,6 +3,7 @@ import React from 'react';
 function ItemListing(props) {
 
   const itemList = props.itemList;
+  // console.log('itemList', itemList);
 
   const categoryList = itemList.reduce( (accumulator, currentData) => {
     const { category: {name: categoryName='Miscellaneous'} = {}, name, status, UUID } = currentData;
@@ -18,7 +19,14 @@ function ItemListing(props) {
   return (
     <div className='itemList'>
 
-    <h2 className='screen-reader-only'>Shopping list</h2>
+    <h2 className='screen-reader-only'>List of shopping items</h2>
+
+      {itemList.length === 0 && 
+      <div>
+        <p className='itemList__empty'>Woohoo, looks like I'm sparkling clean and empty!</p> 
+        <p className='itemList__empty'>Use the form above to add me some shopping items.</p>
+      </div>
+      }
 
       {categoryList.map((element) => 
 
@@ -28,7 +36,7 @@ function ItemListing(props) {
 
           {element.items.map((item) => 
 
-            <li className='item__element' key={item.UUID}>
+            <li className='item__element flex-row-space-between' key={item.UUID}>
               <input className='item__checkbox' type='checkbox' id={item.UUID} name={item.name} onChange={(event) => {props.onItemCheck(event)}} defaultChecked={item.status === 'Done' && 'checked'} />
               <label className='item__label' htmlFor={item.UUID}> {item.name} </label>
             </li>

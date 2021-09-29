@@ -11,7 +11,7 @@ sans-serif;
 
 $text-body: 1rem;
 $text-huge: $text-body * 2.3;
-$text-h1: $text-body * 1.875; // 30
+$text-h1: $text-body * 1.9; // 30
 $text-h2: $text-body * 1.25; // 20
 $text-h3: $text-body * 1.125; // 18
 $text-sm: $text-body * 0.875;
@@ -34,11 +34,11 @@ h3 {
   margin: 0 0 .2em;
   font-family: $font-sans-serif;
   font-weight: 700;
-  color: $colour-yellow-light;
 }
 
 h1 {
   font-size: $text-h1;
+  color: $colour-yellow-light;
 
   @include screen(p-medium) {
     font-size: $text-h1 * $factor-medium;

@@ -1,15 +1,22 @@
 /*------------------ ItemListing ------------------*/
 .itemList {
-  margin: 10px 0;
+  margin: 4px 0;
+  padding: 1px 10px 10px;
+  border-radius: 3px;
+  background-color: $colour-base-light;
+  color: $colour-teal;
 
-  @include screen(ls-small) {
-    margin: 20px 0;
+  &__empty {
+    margin: 16px;
+    line-height: 1.5em;
+    font-style: italic;
   }
 }
 
 .category__headline {
   margin: .6em 0 .3em;
-  color: $colour-green-light;
+  font-size: 1rem;
+  color: $colour-teal-light;
 
   @include screen(p-medium) {
     font-size: 1.1rem;
@@ -23,37 +30,42 @@
   }
 
   &__element {
-    padding: 2px;
-    background-color: $colour-green;
+    color: $colour-teal-dark;
+    font-weight: 700;
 
     @include screen(ls-small) {
 
       &:hover {
-        background-color: $colour-green-medium;
+        background-color: $colour-highlight-medium;
+      }
+    }
+
+    & .item__checkbox {
+      margin: 6px 3px 0 6px;
+
+      vertical-align: top;
+
+      &:not(:checked)+label {
+        text-decoration: none;
+      }
+
+      &:checked+label {
+        color: $colour-brown-light;
+        text-decoration: line-through;
+
+        @include screen(ls-small) {
+
+          &:hover {
+            background-color: $colour-highlight-medium;
+            color: $colour-brown-medium;
+          }
+        }
       }
     }
   }
 
   &__label {
-    display: inline-block;
-    width: 216px;
-
-    @include screen(p-medium) {
-      font-size: $text-body;
-    }
-  }
-
-  &__checkbox {
-    margin: 2px 6px;
-    vertical-align: top;
-
-    &:not(:checked)+label {
-      text-decoration: none;
-    }
-
-    &:checked+label {
-      color: $colour-green-dark;
-      text-decoration: line-through;
-    }
+    flex-grow: 2;
+    padding: 4px;
   }
 }
