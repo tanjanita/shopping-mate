@@ -422,7 +422,6 @@ h3 {
 
 h1 {
   font-size: 1.9rem;
-  color: #fcead5;
 }
 
 @media only screen and (min-width: 350px) {
@@ -688,9 +687,13 @@ body {
 }
 
 .itemList__empty {
-  margin: 16px;
-  line-height: 1.5em;
+  margin: 46px;
+  line-height: 1.6em;
   font-style: italic;
+}
+
+.itemList__empty-info {
+  margin-bottom: 10px;
 }
 
 .category__headline {

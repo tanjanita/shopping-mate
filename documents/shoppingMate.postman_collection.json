@@ -4,15 +4,14 @@
 		"name": "shoppingMate",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
-	"item": [
-		{
+	"item": [{
 			"name": "list CREATE",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"My list\"\n}",
+					"raw": "{\n    \"name\": \"My Shopping List\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -20,11 +19,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3333/api/lists",
+					"raw": "https://shopping-mate-server.herokuapp.com/api/lists",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"shopping-mate-server",
+						"herokuapp",
+						"com"
 					],
-					"port": "3333",
 					"path": [
 						"api",
 						"lists"
@@ -44,11 +45,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3333/api/lists/5d843363-a815-44ab-883c-04d843d9a523",
+					"raw": "https://shopping-mate-server.herokuapp.com/api/lists/5d843363-a815-44ab-883c-04d843d9a523",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"shopping-mate-server",
+						"herokuapp",
+						"com"
 					],
-					"port": "3333",
 					"path": [
 						"api",
 						"lists",
@@ -64,11 +67,13 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "localhost:3333/api/lists/08edb9ab-29ab-4655-8961-3a3717fd129c",
+					"raw": "https://shopping-mate-server.herokuapp.com/api/lists/08edb9ab-29ab-4655-8961-3a3717fd129c",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"shopping-mate-server",
+						"herokuapp",
+						"com"
 					],
-					"port": "3333",
 					"path": [
 						"api",
 						"lists",
@@ -93,11 +98,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3333/api/lists/6aea498e-df22-4b3f-9444-c00edeef78ff/items",
+					"raw": "https://shopping-mate-server.herokuapp.com/api/lists/6aea498e-df22-4b3f-9444-c00edeef78ff/items",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"shopping-mate-server",
+						"herokuapp",
+						"com"
 					],
-					"port": "3333",
 					"path": [
 						"api",
 						"lists",
@@ -123,11 +130,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3333/api/lists/6aea498e-df22-4b3f-9444-c00edeef78ff/items/dc65ac3f-354e-4ec4-8d80-1294f81beb35",
+					"raw": "https://shopping-mate-server.herokuapp.com/api/lists/6aea498e-df22-4b3f-9444-c00edeef78ff/items/dc65ac3f-354e-4ec4-8d80-1294f81beb35",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"shopping-mate-server",
+						"herokuapp",
+						"com"
 					],
-					"port": "3333",
 					"path": [
 						"api",
 						"lists",
@@ -154,11 +163,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3333/api/lists/6aea498e-df22-4b3f-9444-c00edeef78ff/items",
+					"raw": "https://shopping-mate-server.herokuapp.com/api/lists/6aea498e-df22-4b3f-9444-c00edeef78ff/items",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"shopping-mate-server",
+						"herokuapp",
+						"com"
 					],
-					"port": "3333",
 					"path": [
 						"api",
 						"lists",
@@ -175,11 +186,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3333/api/categories",
+					"raw": "https://shopping-mate-server.herokuapp.com/api/categories",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"shopping-mate-server",
+						"herokuapp",
+						"com"
 					],
-					"port": "3333",
 					"path": [
 						"api",
 						"categories"

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, Redirect } from 'react-router-dom';
 
 import ItemAddition from './ItemAddition';
 import ItemListing from './ItemListing';
@@ -14,6 +14,8 @@ function List(props) {
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [categorySelected, setCategorySelected] = useState('');
   // The shopping list
+  const [listFetched, setListFetched] = useState(false);
+  const [listFetchError, setListFetchError] = useState(false);
   const [listName, setListName] = useState([]);
   const [itemList, setItemList] = useState([]);
   // Infobox at bottom
@@ -22,15 +24,14 @@ function List(props) {
   const { uuid } = useParams();
   
   // Monitor location to update list in case it changes
-  const location = useLocation();
+  const location = window.location.href;
+
   useEffect(() => {
     fetchListItemsGET();
     fetchCategoryOptionsGET();
     
     // set newListURI state to '';
     if (props.newListURI.length > 7) {
-      // console.log('LIST has newListURI');
-      // console.log("LIST triggers MAIN reset of newListURI");
       props.onNewListRedirect();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -41,9 +42,20 @@ function List(props) {
     return fetch(process.env.REACT_APP_APIPATH + '/api/lists/' + uuid)
       .then(response => response.json())
       .then(jsondata => {
-        setListName(jsondata.list.name);
-        setItemList(jsondata.list.items);
+                // IF LIST FETCH RETURNS AN ERROR
+        if (!jsondata.success) {
+          setListFetchError(true);
+        } else {
+          setListName(jsondata.list.name);
+          setItemList(jsondata.list.items);
+          setListFetched(true);
+        }
       })
+  }
+
+  // Redirect to "List not found" if there is an error fetching the list
+  if (listFetchError) {
+    return <Redirect to={{ pathname: "/listNotFound", state: { errorURL: location } }} />;
   }
 
   function fetchCategoryOptionsGET() {
@@ -144,7 +156,7 @@ function List(props) {
         categorySelected={categorySelected} 
         onCategoryChange={handleCategoryChange} />
 
-      <ItemListing itemList={itemList} onItemCheck={handleItemCheck} />
+      <ItemListing listFetched={listFetched} itemList={itemList} onItemCheck={handleItemCheck} />
       
       <ItemDeletion onClickDeleteTicked={handleClickDeleteTicked} />
 
@@ -160,11 +172,10 @@ function List(props) {
           <div className="infobox__content" id='infobox-toggle'>
             <p className='infobox__text'>In order to <b>access this shopping list again later</b>, you <b>need the link</b> to this page.</p>   
             <p className='infobox__text'>You can use it when you're out shopping or to share the list with your shopping-mate :&#41;</p>
-            <p className='infobox__text'>Please <b>bookmark or copy the link address (right-click)</b> for this page:</p>
-            <a href={location.pathname} className='infobox__link'>https://tanjanita-shopping-mate.herokuapp.com{location.pathname}</a>
+            <p className='infobox__text'>Please <b>bookmark or copy the link address (right-click/long-press)</b> for this page:</p>
+            <a href={location} className='infobox__link'>{location}</a>
           </div>
         }
-
       </div>
 
     </div>

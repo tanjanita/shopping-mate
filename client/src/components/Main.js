@@ -3,14 +3,13 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import ListCreation from './ListCreation';
 import List from './List';
+import ListNotFound from './ListNotFound';
 
 function Main() {
 
   const [listInput, setListInput] = useState('');
   const [listInputError, setListInputError] = useState('');
   const [newListURI, setNewListURI] = useState('');
-  
-  // console.log('MAIN newListURI', newListURI);
 
   function handleListInputChange(event) {
     setListInput(event.target.value);
@@ -55,6 +54,16 @@ function Main() {
       <BrowserRouter>
         <Switch>
 
+        <Route path="/listNotFound">
+            <ListNotFound />
+            <ListCreation 
+              onFormSubmit={handleListCreation}
+              listInput={listInput} 
+              listInputError={listInputError} 
+              onListInputChange={handleListInputChange}
+              newListURI={newListURI} />
+          </Route>
+
           <Route path="/lists/:uuid">
             <List 
             onNewListRedirect={handleNewListRedirected}
@@ -71,7 +80,7 @@ function Main() {
           </Route>
 
         </Switch>
-        </BrowserRouter>
+      </BrowserRouter>
     </main>
   );
 }
