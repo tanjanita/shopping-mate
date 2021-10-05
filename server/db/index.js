@@ -2,7 +2,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 
 // Connect to MongoDB collection
-mongoose.connect('mongodb+srv://' + process.env.DB_ADMIN + ':' + process.env.DB_ACCESS_PASS + '@cluster1.bkj7g.mongodb.net/shoppingMateDB?retryWrites=true&w=majority', {
+mongoose.connect(process.env.DB_PATH, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,

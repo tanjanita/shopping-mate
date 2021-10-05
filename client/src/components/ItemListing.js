@@ -2,8 +2,8 @@ import React from 'react';
 
 function ItemListing(props) {
 
+  const listFetched = props.listFetched;
   const itemList = props.itemList;
-  // console.log('itemList', itemList);
 
   const categoryList = itemList.reduce( (accumulator, currentData) => {
     const { category: {name: categoryName='Miscellaneous'} = {}, name, status, UUID } = currentData;
@@ -21,11 +21,18 @@ function ItemListing(props) {
 
     <h2 className='screen-reader-only'>List of shopping items</h2>
 
-      {itemList.length === 0 && 
-      <div>
-        <p className='itemList__empty'>Woohoo, looks like I'm sparkling clean and empty!</p> 
-        <p className='itemList__empty'>Use the form above to add me some shopping items.</p>
-      </div>
+      {(itemList.length === 0 && !listFetched) && 
+        <div className='itemList__empty'>
+          <p className='itemList__empty-info'>One moment please,</p>
+          <p className='itemList__empty-info'>we're loading your list...</p>
+        </div>
+      }
+
+      {(itemList.length === 0 && listFetched) && 
+        <div className='itemList__empty'>
+          <p className='itemList__empty-info'>Wohoo, looks like I'm a sparkling clean and empty list!</p> 
+          <p className='itemList__empty-info'>Use the form above to add new shopping items to appear here.</p>
+        </div>
       }
 
       {categoryList.map((element) => 

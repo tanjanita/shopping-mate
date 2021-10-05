@@ -38,7 +38,6 @@ h3 {
 
 h1 {
   font-size: $text-h1;
-  color: $colour-yellow-light;
 
   @include screen(p-medium) {
     font-size: $text-h1 * $factor-medium;

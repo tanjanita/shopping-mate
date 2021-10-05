@@ -7,9 +7,13 @@
   color: $colour-teal;
 
   &__empty {
-    margin: 16px;
-    line-height: 1.5em;
+    margin: 46px;
+    line-height: 1.6em;
     font-style: italic;
+
+    &-info {
+      margin-bottom: 10px;
+    }
   }
 }
 
