@@ -173,7 +173,8 @@ function List(props) {
             <p className='infobox__text'>In order to <b>access this shopping list again later</b>, you <b>need the link</b> to this page.</p>   
             <p className='infobox__text'>You can use it when you're out shopping or to share the list with your shopping-mate :&#41;</p>
             <p className='infobox__text'>Please <b>bookmark or copy the link address (right-click/long-press)</b> for this page:</p>
-            <a href={location} className='infobox__link'>{location}</a>
+            <p className='infobox__text'><a href={location} className='infobox__link'>{location}</a></p>
+            <p className='infobox__text'>Please note: Unused lists may be deleted after 90 days.</p>
           </div>
         }
       </div>
