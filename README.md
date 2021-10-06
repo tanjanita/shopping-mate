@@ -78,7 +78,7 @@ Eventually, users will be able to select shopping aisles to take care of. This w
 
 ### List Expiry and Deletion 
 - Delete lists after a set amount of time (e.g. 90 days since creation or last edit)
-- Inform users about deletion time span and display expiry date, e.g. "To keep things fresh for you, we clear out old lists from our data shelves after 90 days"
+- Inform users about deletion time span and display expiry date
 - Option to extend list deletion time span within X days of expiry
 
 ## Enhancement 2: Multiple/Separate Users
