@@ -13,7 +13,9 @@
     "web-vitals": "^1.0.1"
   },
   "devDependencies": {
-    "react-scripts": "4.0.3"
+    "immer": "^9.0.6",
+    "react-scripts": "4.0.3",
+    "set-value": "^4.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
