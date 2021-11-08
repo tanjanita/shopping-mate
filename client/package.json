@@ -22,7 +22,8 @@
   },
   "scripts": {
     "preinstall": "npx npm-force-resolutions",
-    "start": "react-scripts start",
+    "heroku-prebuild": "npm install -g serve",
+    "start": "serve -s build",
     "start-all": "(cd ../server && nodemon start) & react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
