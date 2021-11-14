@@ -22,12 +22,6 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-// Server root route
-app.get('/pl-test', (request, response) => {
-  response.write('<h1>shoppingMate API - PL TEST</h1>');
-  response.send();
-});
-
 // Controller and route specs
 const itemRouter = require('./routes/itemRouter');
 const categoryRouter = require('./routes/categoryRouter');
