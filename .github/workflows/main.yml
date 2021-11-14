@@ -1,0 +1,30 @@
+name: build and deploy build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install SSH Key
+      - uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.DEPLOY_PRIVATE_KEY }} 
+      - uses: actions/checkout@v1
+      - name: npm install and build webpack
+        env:
+          remote_host: ${{ secrets.DEPLOY_HOST }}
+          remote_port: 22
+          remote_user: 'build'
+          local_dir: "client/build/"
+          remote_dir: "~/shoppingmate_client/"
+        run: |
+          cd client
+          npm install
+          npm run build
+          rsync -avzr --delete -e "ssh -p ${remote_port} -o StrictHostKeyChecking=no" ${local_dir} ${remote_user}@${remote_host}:${remote_dir}
