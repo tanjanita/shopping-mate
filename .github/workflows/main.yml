@@ -24,11 +24,15 @@ jobs:
           remote_host: ${{ secrets.DEPLOY_HOST }}
           remote_port: 22
           remote_user: 'build'
-          local_dir: "build"
-          remote_dir: "~/shoppingmate_client/"
+          client_local_dir: "build"
+          client_remote_dir: "~/shoppingmate_client/"
           REACT_APP_APIPATH: ${{ secrets.DEPLOY_APIPATH }}
+          server_local_dir: "server"
+          server_remote_dir: "~/shoppingmate_server/"
         run: |
+          rsync -avzr --delete -e "ssh -p ${remote_port} -o StrictHostKeyChecking=no" ${server_local_dir} ${remote_user}@${remote_host}:${server_remote_dir}
           cd client
           npm install
           npm run build
-          rsync -avzr --delete -e "ssh -p ${remote_port} -o StrictHostKeyChecking=no" ${local_dir} ${remote_user}@${remote_host}:${remote_dir}
+          rsync -avzr --delete -e "ssh -p ${remote_port} -o StrictHostKeyChecking=no" ${client_local_dir} ${remote_user}@${remote_host}:${client_remote_dir}
+          
