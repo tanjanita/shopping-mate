@@ -24,7 +24,7 @@ jobs:
           remote_host: ${{ secrets.DEPLOY_HOST }}
           remote_port: 22
           remote_user: 'build'
-          local_dir: "client/build/"
+          local_dir: "build"
           remote_dir: "~/shoppingmate_client/"
         run: |
           cd client
