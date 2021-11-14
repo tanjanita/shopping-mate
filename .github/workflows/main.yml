@@ -26,6 +26,7 @@ jobs:
           remote_user: 'build'
           local_dir: "build"
           remote_dir: "~/shoppingmate_client/"
+          REACT_APP_APIPATH: ${{ secrets.DEPLOY_APIPATH }}
         run: |
           cd client
           npm install
