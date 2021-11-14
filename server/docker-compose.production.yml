@@ -1,0 +1,5 @@
+version: '3'
+
+services:
+  app:
+    command: bash -c "npm install -g pm2 && npm install && pm2-runtime server.js"

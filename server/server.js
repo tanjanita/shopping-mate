@@ -11,7 +11,7 @@ const List = require('./models/listModel');
 
 // Server specs
 const app = express();
-const apiPort = process.env.PORT;
+const apiPort = 3000; // process.env.PORT;
 app.use(cors({origin: process.env.CORS_PATH})); // enable api access from another origin/port
 app.use(express.json()); // for parsing application/json
 
