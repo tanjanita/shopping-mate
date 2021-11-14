@@ -35,4 +35,6 @@ jobs:
           npm install
           npm run build
           rsync -avzr --delete -e "ssh -p ${remote_port} -o StrictHostKeyChecking=no" ${client_local_dir} ${remote_user}@${remote_host}:${client_remote_dir}
+          ssh ${remote_user}@${remote_host} "cp ~/shoppingmate_server/.env ~/shoppingmate_server/server/"
+          ssh ${remote_user}@${remote_host} "docker restart shoppingmate--api"
           
