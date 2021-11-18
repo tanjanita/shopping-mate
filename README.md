@@ -16,7 +16,6 @@ Eventually, users will be able to select shopping aisles to take care of. This w
 - CSS was normalised using Elad Shechter's RESET and Necolas Normalize.css v8.0.1
 - SCSS and BEM are used to set up CSS
 
-
 # File Structure
 - The App is separated into 'server' and 'client' folders, which are deployed into separate Heroku apps
 - The following documentation can be found in the 'documents' folder:
