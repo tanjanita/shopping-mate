@@ -2,9 +2,9 @@ name: build and deploy build
 
 on:
   push:
-    branches: [ deploy-custard ]
+    branches: [ main ]
   pull_request:
-    branches: [ deploy-custard ]
+    branches: [ main ]
 
 jobs:
   build:
